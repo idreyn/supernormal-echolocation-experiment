@@ -16,20 +16,27 @@ import 'jspsych/plugins/jspsych-html-keyboard-response';
 import 'jspsych/plugins/jspsych-fullscreen';
 
 import './echoPlugin';
+import manifest from './manifest';
 
-export function createTimeline(input = {}) {
+console.log(manifest);
+
+export function createTimeline() {
     let timeline = [];
 
-    // Welcome screen
-    timeline.push({
-        type: 'html-keyboard-response',
-        stimulus: '<p>Welcome to supernormal-echolocation-presentation!<p/>',
-    });
+    // // Welcome screen
+    // timeline.push({
+    //     type: 'html-keyboard-response',
+    //     stimulus: '<p>Welcome to supernormal-echolocation-presentation!<p/>',
+    // });
 
-    // Switch to fullscreen
+    // // Switch to fullscreen
+    // timeline.push({
+    //     type: 'fullscreen',
+    //     fullscreen_mode: true,
+    // });
+
     timeline.push({
-        type: 'fullscreen',
-        fullscreen_mode: true,
+        type: 'echo-presentation',
     });
 
     return timeline;

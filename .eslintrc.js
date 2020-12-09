@@ -1,3 +1,5 @@
+/* globals module */
+
 module.exports = {
     env: {
         browser: true,
@@ -14,5 +16,10 @@ module.exports = {
     plugins: ['react', 'prettier'],
     rules: {
         'prettier/prettier': 'error',
+    },
+    settings: {
+        react: {
+            version: 'detect',
+        },
     },
 };

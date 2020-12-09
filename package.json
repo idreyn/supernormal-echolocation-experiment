@@ -6,15 +6,21 @@
     "start": "npm run jspsych -- run",
     "build": "npm run jspsych -- build",
     "jatos": "npm run jspsych -- jatos",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "update-stims": "node -r esm build/updateStims.js"
   },
   "dependencies": {
-    "jspsych": "github:jspsych/jsPsych#v6.1.0"
+    "jspsych": "github:jspsych/jsPsych#v6.1.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.12.7",
     "eslint": "^7.15.0",
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^7.21.5",
+    "esm": "^3.2.25",
+    "fs-extra": "^9.0.1",
     "jspsych-builder": "^1.4.1",
     "prettier": "^2.2.1"
   },

@@ -1,13 +1,19 @@
 /* globals jsPsych */
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-jsPsych['echo-and-response'] = () => {
-    return {
-        info: {
-            name: 'echo-and-response',
-            parameters: {},
-        },
-        trial: (element, trial) => {
-            renderTrialContainer(element, { trial, onFinish: (data) => jsPsych.finishTrial(data) });
-        },
-    };
+import { TrialContainer } from './components/TrialContainer';
+
+jsPsych.plugins['echo-presentation'] = {
+    info: {
+        name: 'echo-presentation',
+        parameters: {},
+    },
+    trial: (element, trial) => {
+        console.log(element);
+        ReactDOM.render(
+            <TrialContainer trial={jsPsych.get} onFinish={(data) => jsPsych.finishTrial(data)} />,
+            element
+        );
+    },
 };
