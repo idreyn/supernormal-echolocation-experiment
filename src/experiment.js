@@ -15,28 +15,44 @@ import '../styles/main.scss';
 import 'jspsych/plugins/jspsych-html-keyboard-response';
 import 'jspsych/plugins/jspsych-fullscreen';
 
-import './echoPlugin';
-import manifest from './manifest';
+import './plugins/echoPlugin';
+import './plugins/headphoneCheckPlugin';
+import './plugins/trainingPlugin';
 
-console.log(manifest);
+import { createTrialBlocks, getAudioFilesForTrialBlocks } from './trials';
+import { render } from './render';
+
+import WelcomeScreen from './components/WelcomeScreen';
+import { trainingFiles } from './components/TrainingSteps';
+
+import { headphoneCheckFiles } from './headphoneCheck';
+import { getUrlParam } from './util';
+
+const trialBlocks = createTrialBlocks({ numRepeats: 2 });
+console.log(trialBlocks);
+
+export const preload_audio = [
+    ...getAudioFilesForTrialBlocks(trialBlocks),
+    ...trainingFiles,
+    ...headphoneCheckFiles,
+];
 
 export function createTimeline() {
     let timeline = [];
 
-    // // Welcome screen
-    // timeline.push({
-    //     type: 'html-keyboard-response',
-    //     stimulus: '<p>Welcome to supernormal-echolocation-presentation!<p/>',
-    // });
+    timeline.push({
+        type: 'html-keyboard-response',
+        stimulus: render(WelcomeScreen),
+    });
 
-    // // Switch to fullscreen
-    // timeline.push({
-    //     type: 'fullscreen',
-    //     fullscreen_mode: true,
-    // });
+    if (!getUrlParam('skipHeadphoneCheck')) {
+        timeline.push({
+            type: 'headphone-check',
+        });
+    }
 
     timeline.push({
-        type: 'echo-presentation',
+        type: 'training',
     });
 
     return timeline;

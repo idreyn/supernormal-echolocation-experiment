@@ -16,6 +16,10 @@ module.exports = {
     plugins: ['react', 'prettier'],
     rules: {
         'prettier/prettier': 'error',
+        'react/no-unescaped-entities': 0,
+        'react/prop-types': 0,
+        'react/display-name': 0,
+        'no-console': 2,
     },
     settings: {
         react: {

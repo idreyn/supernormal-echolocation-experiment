@@ -10,6 +10,7 @@
     "update-stims": "node -r esm build/updateStims.js"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "jspsych": "github:jspsych/jsPsych#v6.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
@@ -26,7 +27,6 @@
   },
   "browserslist": [
     "last 2 versions",
-    "ie >= 9",
     "ios >= 7"
   ]
 }

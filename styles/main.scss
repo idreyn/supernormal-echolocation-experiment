@@ -1,8 +1,161 @@
+$primary: #61b15a;
+$primary-darker: darken($primary, 10%);
+$primary-darkest: darken($primary, 20%);
+$echoes: slateblue;
+$choice: darkgoldenrod;
+
 html,
 body {
   margin: 0;
 }
 
+.jspsych-content {
+  max-width: 800px;
+}
+
 .jspsych-display-element {
   background-color: #ffffff;
+}
+
+.jspsych-btn.primary {
+  background-color: $primary;
+  border-color: $primary-darker;
+  color: white;
+  &:not(:disabled):hover {
+    background-color: $primary-darker;
+    border-color: $primary-darkest;
+  }
+}
+
+.jspsych-btn:disabled {
+  opacity: 0.5;
+}
+
+.button-set {
+  display: flex;
+  justify-content: center;
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+.left-align {
+  text-align: left;
+}
+
+@keyframes echo-fade {
+  0% {
+    transform: translateX(-50%) translateY(-50%) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) scale(100);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.press-space-to-continue {
+  animation: fade-in;
+  animation-duration: 0.5s;
+}
+
+.echo-visualization {
+  .description {
+    text-align: left;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+  .stage {
+    margin: 0 auto;
+    overflow: hidden;
+    width: 700px;
+    height: 700px;
+    position: relative;
+    > * {
+      position: absolute;
+    }
+    .ring {
+      border: 2px solid #ccc;
+    }
+    .ring-mask {
+      width: 100%;
+      height: 50%;
+      top: 50%;
+      background: white;
+    }
+    .axis {
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      > .axis-line {
+        flex-grow: 1;
+        border: 1px solid #ccc;
+      }
+      > .axis-label {
+        padding: 10px;
+      }
+    }
+    .x-axis {
+      width: 100%;
+      flex-direction: row;
+      > .axis-line {
+        height: 0px;
+      }
+    }
+    .y-axis {
+      height: 100%;
+      flex-direction: column;
+      > .axis-line {
+        width: 0px;
+      }
+    }
+    .head {
+      background: black;
+    }
+    .echo-animation {
+      opacity: 0;
+      background: $echoes;
+      animation-name: echo-fade;
+      animation-duration: 0.7s;
+      animation-fill-mode: forwards;
+    }
+    .azimuth-choice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background: $choice;
+      &.chosen {
+        background: $echoes;
+      }
+    }
+  }
+}
+
+.keyboard-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $echoes;
+  color: white;
+  border-radius: 2px;
+  border: 1px solid darken($echoes, 10%);
+  text-transform: uppercase;
+  width: 1.2em;
+  height: 1.2em;
+  font-size: 0.8em;
+  &.space {
+    width: unset;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }

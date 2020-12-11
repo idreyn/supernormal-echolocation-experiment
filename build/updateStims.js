@@ -8,7 +8,7 @@ const cwd = process.cwd();
 const stimsTarget = path.join(cwd, 'media', 'audio', 'stims');
 const stimsSourceCsv = path.join(stimsSource, manifestName);
 const stimsTargetCsv = path.join(stimsTarget, manifestName);
-const manifestJsFile = path.join(cwd, 'src', 'manifest.js');
+const manifestJsFile = path.join(cwd, 'src', '_manifestData.js');
 
 const createManifestJsFile = () => {
     const csvContents = fs.readFileSync(stimsSourceCsv).toString();
