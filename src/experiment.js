@@ -15,6 +15,7 @@ import '../styles/main.scss';
 import 'jspsych/plugins/jspsych-html-keyboard-response';
 import 'jspsych/plugins/jspsych-fullscreen';
 
+import './plugins/blockBookendPlugin';
 import './plugins/echoPlugin';
 import './plugins/headphoneCheckPlugin';
 import './plugins/trainingPlugin';
@@ -29,7 +30,6 @@ import { headphoneCheckFiles } from './headphoneCheck';
 import { getUrlParam } from './util';
 
 const trialBlocks = createTrialBlocks({ numRepeats: 2 });
-console.log(trialBlocks);
 
 export const preload_audio = [
     ...getAudioFilesForTrialBlocks(trialBlocks),
@@ -53,6 +53,35 @@ export function createTimeline() {
 
     timeline.push({
         type: 'training',
+    });
+
+    trialBlocks.forEach((block, blockIndex, { length: blockCount }) => {
+        const blockNumber = blockIndex + 1;
+        timeline.push({
+            type: 'block-bookend',
+            slowdown: block.slowdown,
+            blockNumber,
+            blockCount,
+        });
+        block.presentations.forEach((presentation, trialIndex, { length: trialCount }) => {
+            timeline.push({
+                type: 'echo-presentation',
+                presentation: presentation,
+                progress: {
+                    blockNumber,
+                    blockCount,
+                    trialCount,
+                    trialNumber: trialIndex + 1,
+                },
+            });
+        });
+        timeline.push({
+            type: 'block-bookend',
+            isEnd: true,
+            slowdown: block.slowdown,
+            blockNumber,
+            blockCount,
+        });
     });
 
     return timeline;

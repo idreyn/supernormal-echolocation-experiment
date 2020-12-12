@@ -32,7 +32,7 @@ const presentations = {
 export const trainingFiles = Object.values(presentations).map((pr) => pr.filename);
 
 const background = (next) => (
-    <div className="left-align">
+    <div className="text-content">
         <p>We are building a device to help blind people navigate by sound.</p>
         <p>
             Inspired by bats, it creates sound bursts too high-pitched to hear. It has two
@@ -58,7 +58,7 @@ const stageLayout = (next) => (
     <EchoVisualization
         description={
             <>
-                This black circle represents your head, seen from above. All of the sounds you will
+                This black dot represents your head, seen from above. All of the sounds you will
                 hear are echoes from targets on the ring in front of you.{' '}
                 <KeyboardResponse delaySeconds={2}>
                     <PressSpaceToContinue handler={next} />
@@ -104,7 +104,7 @@ const readyToTry = (next) => (
         description={
             <>
                 After each sound, you will be asked to estimate which angle the echo came from. You
-                will choose from a set of five closely-spaced choices. Next, we'll try this out.{' '}
+                will choose from a set of five closely-spaced choices. Let's try an example.{' '}
                 <KeyboardResponse delaySeconds={2}>
                     <PressSpaceToContinue handler={next} />
                 </KeyboardResponse>
@@ -113,7 +113,19 @@ const readyToTry = (next) => (
     />
 );
 
-const sampleTrial = (next) => <EchoTrial presentation={presentations.first} onFinish={next} />;
+const sampleTrial = (next) => (
+    <EchoTrial prefix="Ready? " presentation={presentations.first} onFinish={next} />
+);
+
+const readyToBegin = (next) => (
+    <EchoVisualization
+        description={
+            <>
+                Perfect! You're ready to begin. <PressSpaceToContinue handler={next} />
+            </>
+        }
+    />
+);
 
 const steps = [
     background,
@@ -123,6 +135,7 @@ const steps = [
     thirdSample,
     readyToTry,
     sampleTrial,
+    readyToBegin,
 ];
 
 const TrainingSteps = ({ onFinish }) => {

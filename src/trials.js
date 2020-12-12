@@ -2,7 +2,7 @@
 import { range } from './util';
 import { queryManifestEntries } from './manifest';
 
-const RECEIVER_ORIENTATION_TYPES = ['normal', 'matched'];
+const RECEIVER_ORIENTATION_TYPES = ['matched'];
 const COMPENSATION_DENOMINATORS = [0, 1, 2, 4];
 const SLOWDOWNS = [7, 14, 21];
 const BLOCK_CENTER_AZIMUTHS = [-60, -30, 0, 30, 60];

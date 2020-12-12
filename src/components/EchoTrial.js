@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import EchoPresentation from './EchoPresentation';
 import EchoVisualization from './EchoVisualization';
 import { KeyboardTrigger } from './KeyboardResponse';
@@ -16,7 +16,12 @@ const mapChoicesToResponseKeys = (responseKeys, choices) => {
     return res;
 };
 
-const EchoTrial = ({ presentation, onFinish, responseKeys = defaultResponseKeys }) => {
+const EchoTrial = ({
+    prefix = null,
+    presentation,
+    onFinish,
+    responseKeys = defaultResponseKeys,
+}) => {
     const [presentationState, setPresentationState] = useState('waiting');
     const [chosenAzimuth, setChosenAzimuth] = useState(null);
     const { choices } = presentation;
@@ -75,7 +80,7 @@ const EchoTrial = ({ presentation, onFinish, responseKeys = defaultResponseKeys 
         <EchoVisualization
             description={
                 <>
-                    Press{' '}
+                    {prefix}Press{' '}
                     <KeyboardTrigger
                         trigger="space"
                         handler={() => setPresentationState('playing')}

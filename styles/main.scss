@@ -3,14 +3,11 @@ $primary-darker: darken($primary, 10%);
 $primary-darkest: darken($primary, 20%);
 $echoes: slateblue;
 $choice: darkgoldenrod;
+$stage-size: 70vh;
 
 html,
 body {
   margin: 0;
-}
-
-.jspsych-content {
-  max-width: 800px;
 }
 
 .jspsych-display-element {
@@ -39,7 +36,8 @@ body {
   }
 }
 
-.left-align {
+.text-content {
+  max-width: 700px;
   text-align: left;
 }
 
@@ -69,6 +67,11 @@ body {
 }
 
 .echo-visualization {
+  &.high-speed {
+    .stage .echo-animation {
+      animation-duration: 0.5s;
+    }
+  }
   .description {
     text-align: left;
     height: 100px;
@@ -77,8 +80,8 @@ body {
   .stage {
     margin: 0 auto;
     overflow: hidden;
-    width: 700px;
-    height: 700px;
+    width: $stage-size;
+    height: $stage-size;
     position: relative;
     > * {
       position: absolute;
@@ -148,7 +151,7 @@ body {
   background-color: $echoes;
   color: white;
   border-radius: 2px;
-  border: 1px solid darken($echoes, 10%);
+  border: 2px solid darken($echoes, 10%);
   text-transform: uppercase;
   width: 1.2em;
   height: 1.2em;
@@ -157,5 +160,34 @@ body {
     width: unset;
     padding-left: 10px;
     padding-right: 10px;
+  }
+  &.key-down {
+    background: darken($echoes, 10%);
+  }
+}
+
+.progress-indicator {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  .label {
+    flex-shrink: 0;
+    margin-right: 20px;
+  }
+  .bar {
+    width: 100%;
+    height: 15px;
+    flex-grow: 1;
+    justify-content: space-between;
+    display: flex;
+    .block {
+      width: calc(20% - 5px);
+      background: #eee;
+      .block-progress {
+        height: 100%;
+        background: $primary;
+      }
+    }
   }
 }

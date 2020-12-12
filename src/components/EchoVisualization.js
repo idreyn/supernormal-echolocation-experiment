@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 const getPositionStyle = (x, y) => {
     return {
-        left: `calc(50% + ${x}px)`,
-        top: `calc(50% - ${y}px)`,
+        left: `calc(50% + ${100 * x}%)`,
+        top: `calc(50% - ${100 * y}%)`,
         transform: 'translateX(-50%) translateY(-50%)',
     };
 };
@@ -18,9 +18,9 @@ const getRadialPositionStyle = (r, theta) => {
 
 const getCircleStyle = (radius) => {
     return {
-        width: `${2 * radius}px`,
-        height: `${2 * radius}px`,
-        borderRadius: `${radius}px`,
+        width: `${2 * 100 * radius}%`,
+        height: `${2 * 100 * radius}%`,
+        borderRadius: 100000,
     };
 };
 
@@ -34,17 +34,19 @@ const EchoVisualization = (props) => {
         targetDistanceMeters = 3,
         echoAnimationAzimuth,
         echoAnimationSlowdown,
-        pxPerMeter = 90,
+        sizeMeters = 8,
     } = props;
-    const targetDistancePx = targetDistanceMeters * pxPerMeter;
 
+    const targetDistance = targetDistanceMeters / sizeMeters;
     return (
-        <div className="echo-visualization">
+        <div
+            className={classNames('echo-visualization', echoAnimationSlowdown < 10 && 'high-speed')}
+        >
             <div className="description">{description}</div>
             <div className="stage">
                 <div
                     className="ring"
-                    style={{ ...getPositionStyle(0, 0), ...getCircleStyle(targetDistancePx) }}
+                    style={{ ...getPositionStyle(0, 0), ...getCircleStyle(targetDistance) }}
                 />
                 <div className="ring-mask" />
                 <div className="axis y-axis" style={getPositionStyle(0, 0)}>
@@ -61,15 +63,15 @@ const EchoVisualization = (props) => {
                     className="head"
                     style={{
                         ...getPositionStyle(0, 0),
-                        ...getCircleStyle(headRadiusMeters * 2 * pxPerMeter),
+                        ...getCircleStyle(headRadiusMeters / sizeMeters),
                     }}
                 />
                 {typeof echoAnimationAzimuth === 'number' && (
                     <div
                         className="echo-animation"
                         style={{
-                            ...getRadialPositionStyle(targetDistancePx, echoAnimationAzimuth),
-                            ...getCircleStyle(10),
+                            ...getRadialPositionStyle(targetDistance, echoAnimationAzimuth),
+                            ...getCircleStyle(0.02),
                             animationDelay: `${
                                 (2 * echoAnimationSlowdown * targetDistanceMeters) / 343
                             }s`,
@@ -81,7 +83,7 @@ const EchoVisualization = (props) => {
                         className="echo-animation"
                         style={{
                             ...getRadialPositionStyle(0, 0),
-                            ...getCircleStyle(10),
+                            ...getCircleStyle(0.02),
                         }}
                     />
                 )}
@@ -93,8 +95,8 @@ const EchoVisualization = (props) => {
                             azimuth === chosenAzimuth && 'chosen'
                         )}
                         style={{
-                            ...getRadialPositionStyle(targetDistancePx, azimuth),
-                            ...getCircleStyle(12),
+                            ...getRadialPositionStyle(targetDistance, azimuth),
+                            ...getCircleStyle(0.015),
                         }}
                     >
                         {label}
