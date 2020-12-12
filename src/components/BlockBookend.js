@@ -33,7 +33,7 @@ const BlockBookend = ({ isEnd, blockNumber, blockCount, slowdown, onFinish }) =>
                         Finished block {blockNumber} of {blockCount}
                     </h1>
                     <p>
-                        Nice work. This is be a good time to take a short break, but do not close
+                        Nice work. This would be a good time to take a short break, but do not close
                         this browser tab.
                     </p>
                     <p>
