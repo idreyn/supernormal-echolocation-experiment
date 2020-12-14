@@ -1,4 +1,7 @@
 /* global process */
+/**
+ * Usage: npm run update-stims [stims-directory]
+ */
 import fs from 'fs-extra';
 import path from 'path';
 

@@ -7,6 +7,7 @@
     "build": "npm run jspsych -- build",
     "jatos": "npm run jspsych -- jatos",
     "lint": "eslint .",
+    "deploy": "npm run lint && npm run build && node -r esm build/deploy.js",
     "update-stims": "node -r esm build/updateStims.js"
   },
   "dependencies": {
