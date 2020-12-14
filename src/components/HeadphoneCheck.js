@@ -33,82 +33,88 @@ const HeadphoneCheck = ({ onFinish, testLength, permittedFailures }) => {
         }
     }, [currentElement]);
 
-    if (isFinished) {
-        if (isPassing) {
+    const renderInner = () => {
+        if (isFinished) {
+            if (isPassing) {
+                return (
+                    <>
+                        <h1>All set!</h1>
+                        <button className="jspsych-btn primary" onClick={onFinish}>
+                            Continue
+                        </button>
+                    </>
+                );
+            }
             return (
                 <>
-                    <h1>All set!</h1>
-                    <button className="jspsych-btn primary" onClick={onFinish}>
-                        Continue
-                    </button>
+                    <h1>Sorry.</h1>
+                    <p>It appears you're not wearing headphones.</p>
                 </>
             );
         }
-        return (
-            <>
-                <h1>Sorry.</h1>
-                <p>It appears you're not wearing headphones.</p>
-            </>
-        );
-    }
 
-    if (isCalibrating) {
+        if (isCalibrating) {
+            return (
+                <>
+                    <h1>Check your headphones</h1>
+                    <p>
+                        You'll need to wear headphones or earbuds to participate in this experiment.
+                    </p>
+                    <p>
+                        On the following screens, we will perform a quick check of your headphone
+                        capability. Press <b>Test Volume</b> to play a sound. Make sure your
+                        headphones are working properly and are at a good volume. Then press{' '}
+                        <b>Start Test</b> to begin.
+                    </p>
+                    <div className="button-set">
+                        <button className="jspsych-btn" onClick={handlePlayCalibration}>
+                            Test Volume
+                        </button>
+                        <button
+                            disabled={!hasCalibrated || isPlaying}
+                            className="jspsych-btn primary"
+                            onClick={() => setTestIndex(0)}
+                        >
+                            Start Test
+                        </button>
+                    </div>
+                </>
+            );
+        }
+
         return (
             <>
-                <h1>Check your headphones</h1>
-                <p>You'll need to wear headphones or earbuds to participate in this experiment.</p>
-                <p>
-                    On the following screens, we will perform a quick check of your headphone
-                    capability. Press <b>Test Volume</b> to play a sound to make sure your
-                    headphones are working properly and are at a good volume. Then press{' '}
-                    <b>Start Test</b> to begin.
-                </p>
+                <h1>
+                    Which sound is the quietest? ({testIndex + 1}/{testElements.length})
+                </h1>
                 <div className="button-set">
-                    <button className="jspsych-btn" onClick={handlePlayCalibration}>
-                        Test Volume
+                    <button
+                        disabled={isPlaying}
+                        className="jspsych-btn"
+                        onClick={() => handleResponseClick(1)}
+                    >
+                        First
                     </button>
                     <button
-                        disabled={!hasCalibrated || isPlaying}
-                        className="jspsych-btn primary"
-                        onClick={() => setTestIndex(0)}
+                        disabled={isPlaying}
+                        className="jspsych-btn"
+                        onClick={() => handleResponseClick(2)}
                     >
-                        Start Test
+                        Second
+                    </button>
+                    <button
+                        disabled={isPlaying}
+                        className="jspsych-btn"
+                        onClick={() => handleResponseClick(3)}
+                    >
+                        Third
                     </button>
                 </div>
             </>
         );
-    }
+    };
 
-    return (
-        <>
-            <h1>
-                Which sound is the quietest? ({testIndex + 1}/{testElements.length})
-            </h1>
-            <div className="button-set">
-                <button
-                    disabled={isPlaying}
-                    className="jspsych-btn"
-                    onClick={() => handleResponseClick(1)}
-                >
-                    First
-                </button>
-                <button
-                    disabled={isPlaying}
-                    className="jspsych-btn"
-                    onClick={() => handleResponseClick(2)}
-                >
-                    Second
-                </button>
-                <button
-                    disabled={isPlaying}
-                    className="jspsych-btn"
-                    onClick={() => handleResponseClick(3)}
-                >
-                    Third
-                </button>
-            </div>
-        </>
-    );
+    return <div className="text-content centered">{renderInner()}</div>;
 };
 
 export default HeadphoneCheck;

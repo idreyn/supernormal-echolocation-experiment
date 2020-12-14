@@ -19,6 +19,7 @@ import './plugins/blockBookendPlugin';
 import './plugins/echoPlugin';
 import './plugins/headphoneCheckPlugin';
 import './plugins/trainingPlugin';
+import './plugins/pavloviaPlugin';
 
 import { createTrialBlocks, getAudioFilesForTrialBlocks } from './trials';
 import { render } from './render';
@@ -28,6 +29,13 @@ import { trainingFiles } from './components/TrainingSteps';
 
 import { headphoneCheckFiles } from './headphoneCheck';
 import { getUrlParam } from './util';
+
+const isPavlovia = window.location.hostname.includes('pavlovia.org');
+const isLocalhost = window.location.hostname.includes('localhost');
+
+if (!(isLocalhost || isPavlovia)) {
+    throw new Error('Cannot detect environment');
+}
 
 const trialBlocks = createTrialBlocks({ numRepeats: 2 });
 
@@ -39,6 +47,13 @@ export const preload_audio = [
 
 export function createTimeline() {
     let timeline = [];
+
+    if (isPavlovia) {
+        timeline.push({
+            type: 'pavlovia',
+            command: 'init',
+        });
+    }
 
     timeline.push({
         type: 'html-keyboard-response',
@@ -83,6 +98,13 @@ export function createTimeline() {
             blockCount,
         });
     });
+
+    if (isPavlovia) {
+        timeline.push({
+            type: 'pavlovia',
+            command: 'finish',
+        });
+    }
 
     return timeline;
 }

@@ -20,6 +20,7 @@ const BlockBookend = ({ isEnd, blockNumber, blockCount, slowdown, onFinish }) =>
                         <h1>
                             Finished block {blockNumber} of {blockCount}
                         </h1>
+                        <p>Nice work! Please do not close this browser tab yet.</p>
                         <p>
                             <PressSpaceToContinue handler={onFinish} />
                         </p>

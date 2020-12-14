@@ -52,3 +52,10 @@ export const createTrialBlocks = ({ numRepeats }) => {
 
 export const getAudioFilesForTrialBlocks = (trialBlocks) =>
     new Set(trialBlocks.map((block) => block.presentations.map((pres) => pres.filename)).flat());
+
+export const getDataEntryForTrial = (presentation, responseAzimuth) => {
+    return {
+        ...presentation,
+        responseAzimuth,
+    };
+};

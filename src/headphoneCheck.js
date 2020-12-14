@@ -1,3 +1,5 @@
+import { queryManifestEntries } from './manifest';
+
 /* global jsPsych */
 const correctAnswerMap = {
     'antiphase_HC_ISO.wav': 2,
@@ -23,7 +25,12 @@ export const getRandomHeadphoneCheck = (length) => {
         .slice(0, length);
 };
 
-export const calibrationFilename = getAssetFilenameForKey('noise_calib_stim.wav');
+export const calibrationFilename = queryManifestEntries({
+    azimuth: 0,
+    slowdown: 21,
+    compensationDenominator: 1,
+    receiverOrientationType: 'matched',
+}).filename;
 
 export const headphoneCheckFiles = [
     ...Object.keys(correctAnswerMap).map(getAssetFilenameForKey),

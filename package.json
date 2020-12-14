@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
+    "jquery": "^3.5.1",
     "jspsych": "github:jspsych/jsPsych#v6.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"

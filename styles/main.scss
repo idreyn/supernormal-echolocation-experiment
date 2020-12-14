@@ -39,6 +39,9 @@ body {
 .text-content {
   max-width: 700px;
   text-align: left;
+  &.centered {
+    text-align: center;
+  }
 }
 
 @keyframes echo-fade {

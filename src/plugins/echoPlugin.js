@@ -2,6 +2,7 @@ import React from 'react';
 
 import EchoTrial from '../components/EchoTrial';
 import ProgressIndicator from '../components/ProgressIndicator';
+import { getDataEntryForTrial } from '../trials';
 
 import { createReactPlugin } from './createReactPlugin';
 
@@ -13,8 +14,8 @@ createReactPlugin({
             <ProgressIndicator progress={progress} />
             <EchoTrial
                 presentation={presentation}
-                onFinish={(data) => {
-                    onFinish(data);
+                onFinish={(azimuth) => {
+                    onFinish(getDataEntryForTrial(presentation, azimuth));
                 }}
                 key={Date.now()}
             />

@@ -35,7 +35,7 @@ const background = (next) => (
     <div className="text-content">
         <p>We are building a device to help blind people navigate by sound.</p>
         <p>
-            Inspired by bats, it creates sound bursts too high-pitched to hear. It has two
+            Inspired by bats, it emits bursts of sound too high-pitched to hear. It has two
             artificial ears that slow down the echoes they pick up, so the wearer of the device can
             hear them. The echoes are in stereo, so it's possible to tell what direction they are
             coming from.
