@@ -10,6 +10,11 @@ body {
   margin: 0;
 }
 
+.jspsych-btn {
+  display: flex;
+  align-items: center;
+}
+
 .jspsych-display-element {
   background-color: #ffffff;
 }
@@ -147,6 +152,13 @@ body {
   }
 }
 
+.keyset {
+  display: inline-block;
+  > :not(:last-child) {
+    margin-right: 0.3em;
+  }
+}
+
 .keyboard-trigger {
   display: inline-flex;
   align-items: center;
@@ -191,6 +203,62 @@ body {
         height: 100%;
         background: $primary;
       }
+    }
+  }
+}
+
+.choice-box {
+  display: flex;
+  align-items: first baseline;
+  border: 2px solid #eee;
+  border-radius: 2px;
+  padding: 0px 10px;
+  cursor: pointer;
+
+  &:not(.disabled):not(.selected):hover {
+    background: darken(white, 3%);
+  }
+
+  &.selected {
+    background: lighten($primary, 30%);
+    border-color: $primary;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .inner {
+    padding: 10px;
+    .title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    text-align: left;
+  }
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.warning {
+  background: cornsilk;
+  border: 2px solid darken(cornsilk, 50%);
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.volume-choice {
+  display: flex;
+  align-items: center;
+  .jspsych-btn {
+    margin-left: 10px;
+    &::after {
+      margin-left: 0.5em;
+      font-size: 0.8em;
+      content: '▶';
     }
   }
 }

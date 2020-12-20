@@ -12,12 +12,16 @@ export const KeyboardResponse = ({ children, delaySeconds }) => {
     return null;
 };
 
-export const KeyboardTrigger = ({ trigger, handler }) => {
+export const KeyboardTrigger = ({ trigger, handler, disabled = false }) => {
     const normalizedTrigger = trigger.toLowerCase();
 
     useEffect(() => {
+        if (disabled) {
+            return;
+        }
         const listener = (evt) => {
             if (
+                handler &&
                 evt.key &&
                 (evt.key.toLowerCase() === normalizedTrigger ||
                     (normalizedTrigger === 'space' && evt.key === ' '))
@@ -27,7 +31,7 @@ export const KeyboardTrigger = ({ trigger, handler }) => {
         };
         window.addEventListener('keypress', listener);
         return () => window.removeEventListener('keypress', listener);
-    }, []);
+    }, [disabled, normalizedTrigger]);
 
     return (
         <span className={classNames('keyboard-trigger', normalizedTrigger === 'space' && 'space')}>
@@ -35,6 +39,18 @@ export const KeyboardTrigger = ({ trigger, handler }) => {
         </span>
     );
 };
+
+export const Keyset = ({ triggers, onSelect }) => (
+    <span className="keyset">
+        {triggers.map((trigger, i) => (
+            <KeyboardTrigger
+                trigger={trigger}
+                key={i}
+                handler={onSelect && (() => onSelect(trigger))}
+            />
+        ))}
+    </span>
+);
 
 export const PressSpaceToContinue = ({ handler }) => (
     <span className="press-space-to-continue">

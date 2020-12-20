@@ -14,8 +14,8 @@ createReactPlugin({
             <ProgressIndicator progress={progress} />
             <EchoTrial
                 presentation={presentation}
-                onFinish={(azimuth) => {
-                    onFinish(getDataEntryForTrial(presentation, azimuth));
+                onFinish={({ chosenAzimuth, responseDelay }) => {
+                    onFinish(getDataEntryForTrial(presentation, chosenAzimuth, responseDelay));
                 }}
                 key={Date.now()}
             />

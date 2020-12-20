@@ -114,7 +114,12 @@ const readyToTry = (next) => (
 );
 
 const sampleTrial = (next) => (
-    <EchoTrial prefix="Ready? " presentation={presentations.first} onFinish={next} />
+    <EchoTrial
+        prefix="Ready? "
+        presentation={presentations.first}
+        onFinish={next}
+        timeoutAfterMs={null}
+    />
 );
 
 const readyToBegin = (next) => (

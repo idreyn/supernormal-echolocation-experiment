@@ -34,11 +34,7 @@ const BlockBookend = ({ isEnd, blockNumber, blockCount, slowdown, onFinish }) =>
                         Finished block {blockNumber} of {blockCount}
                     </h1>
                     <p>
-                        Nice work. This would be a good time to take a short break, but do not close
-                        this browser tab.
-                    </p>
-                    <p>
-                        When you're ready, press{' '}
+                        Nice work. Take a moment, and when you're ready, press{' '}
                         <KeyboardTrigger trigger="space" handler={onFinish} /> to continue to the{' '}
                         {nextOrFinal} block.
                     </p>

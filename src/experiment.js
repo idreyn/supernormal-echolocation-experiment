@@ -18,8 +18,9 @@ import 'jspsych/plugins/jspsych-fullscreen';
 import './plugins/blockBookendPlugin';
 import './plugins/echoPlugin';
 import './plugins/headphoneCheckPlugin';
-import './plugins/trainingPlugin';
+import './plugins/keysetSelectPlugin';
 import './plugins/pavloviaPlugin';
+import './plugins/trainingPlugin';
 
 import { createTrialBlocks, getAudioFilesForTrialBlocks } from './trials';
 import { render } from './render';
@@ -28,7 +29,6 @@ import WelcomeScreen from './components/WelcomeScreen';
 import { trainingFiles } from './components/TrainingSteps';
 
 import { headphoneCheckFiles } from './headphoneCheck';
-import { getUrlParam } from './util';
 
 const isPavlovia = window.location.hostname.includes('pavlovia.org');
 const isLocalhost = window.location.hostname.includes('localhost');
@@ -60,11 +60,13 @@ export function createTimeline() {
         stimulus: render(WelcomeScreen),
     });
 
-    if (!getUrlParam('skipHeadphoneCheck')) {
-        timeline.push({
-            type: 'headphone-check',
-        });
-    }
+    timeline.push({
+        type: 'keyset-select',
+    });
+
+    timeline.push({
+        type: 'headphone-check',
+    });
 
     timeline.push({
         type: 'training',
