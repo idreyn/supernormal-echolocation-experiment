@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { getChosenKeyset } from '../keyset';
 import EchoPresentation from './EchoPresentation';
 import EchoVisualization from './EchoVisualization';
-import { KeyboardTrigger, Keyset } from './KeyboardResponse';
+import { Keyset } from './KeyboardResponse';
 
 const mapChoicesToResponseKeys = (responseKeys, choices) => {
     if (choices.length !== responseKeys.length) {
@@ -15,23 +15,26 @@ const mapChoicesToResponseKeys = (responseKeys, choices) => {
     return res;
 };
 
-const EchoTrial = ({
-    prefix = null,
-    presentation,
-    onFinish,
-    responseKeyset = getChosenKeyset(),
-    timeoutAfterMs = 5000,
-}) => {
+const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 5000 }) => {
+    const { keys: responseKeys } = getChosenKeyset();
     const timeoutRef = useRef(null);
     const [presentationState, setPresentationState] = useState('waiting');
     const [chosenAzimuth, setChosenAzimuth] = useState(null);
     const [playStartTime, setPlayStartTime] = useState(null);
     const { choices } = presentation;
 
-    const azimuthChoiceMap = useMemo(() => mapChoicesToResponseKeys(responseKeyset, choices), [
-        responseKeyset,
+    const azimuthChoiceMap = useMemo(() => mapChoicesToResponseKeys(responseKeys, choices), [
+        responseKeys,
         choices,
     ]);
+
+    useEffect(() => {
+        if (presentationState === 'waiting') {
+            const listener = () => setPresentationState('playing');
+            window.addEventListener('keypress', listener);
+            return () => window.removeEventListener('keypress', listener);
+        }
+    }, [presentationState]);
 
     useEffect(() => {
         if (presentationState === 'playing') {
@@ -60,8 +63,8 @@ const EchoTrial = ({
 
     const renderChoiceKeysDescription = () => (
         <>
-            Use the <Keyset triggers={responseKeyset} onSelect={handleChoiceByKey} /> keys to pick
-            the direction closest to where you heard the echo from.
+            Use the <Keyset triggers={responseKeys} onSelect={handleChoiceByKey} /> keys to pick the
+            direction closest to where you heard the echo from.
         </>
     );
 
@@ -84,20 +87,7 @@ const EchoTrial = ({
         );
     }
 
-    return (
-        <EchoVisualization
-            description={
-                <>
-                    {prefix}Press{' '}
-                    <KeyboardTrigger
-                        trigger="space"
-                        handler={() => setPresentationState('playing')}
-                    />{' '}
-                    to play.
-                </>
-            }
-        />
-    );
+    return <EchoVisualization description={<>{prefix}Press any key to play.</>} />;
 };
 
 export default EchoTrial;

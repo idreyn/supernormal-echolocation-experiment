@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
 
-import { LEFTY_KEYSET, RIGHTY_KEYSET, chooseKeyset } from '../keyset';
+import { setChosenKeyset, keysetOptions } from '../keyset';
 
 import { Choice, ChoiceSet } from './Choice';
 import { Keyset } from './KeyboardResponse';
 
 const KeysetSelect = ({ onFinish }) => {
-    const [keyset, setKeyset] = useState('left');
+    const [keysetName, setKeysetName] = useState(null);
 
     useEffect(() => {
-        chooseKeyset(keyset === 'left' ? LEFTY_KEYSET : RIGHTY_KEYSET);
-    }, [keyset]);
+        setChosenKeyset(keysetOptions[keysetName]);
+    }, [keysetName]);
 
     const renderChoiceSet = () => {
         return (
-            <ChoiceSet name="volume-calibration" value={keyset} onChange={setKeyset}>
-                <Choice title="Left hand" value="left">
-                    Use the <Keyset triggers={LEFTY_KEYSET} /> keys to respond
-                </Choice>
-                <Choice title="Right hand" value="right">
-                    Use the <Keyset triggers={RIGHTY_KEYSET} /> keys to respond
-                </Choice>
+            <ChoiceSet name="volume-calibration" value={keysetName} onChange={setKeysetName}>
+                {Object.entries(keysetOptions).map(([name, keyset]) => (
+                    <Choice title={keyset.title} value={name} key={name}>
+                        Use the <Keyset triggers={keyset.keys} /> keys to respond
+                    </Choice>
+                ))}
             </ChoiceSet>
         );
     };
@@ -33,7 +32,7 @@ const KeysetSelect = ({ onFinish }) => {
                 choose which hand to use on a QWERTY keyboard here.
             </p>
             {renderChoiceSet()}
-            <button className="jspsych-btn primary" onClick={onFinish}>
+            <button className="jspsych-btn primary" onClick={onFinish} disabled={!keysetName}>
                 Continue
             </button>
         </div>

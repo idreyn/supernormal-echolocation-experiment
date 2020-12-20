@@ -99,7 +99,7 @@ const EchoVisualization = (props) => {
                             ...getCircleStyle(0.015),
                         }}
                     >
-                        {label.toUpperCase()}
+                        {label === 'space' ? '_' : label.toUpperCase()}
                     </div>
                 ))}
             </div>
