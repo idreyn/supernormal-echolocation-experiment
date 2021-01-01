@@ -111,7 +111,9 @@ export function createTimeline() {
             type: 'pavlovia',
             command: 'finish',
             onComplete: () => {
-                window.location.href = getCompletionUrl();
+                if (isPavlovia) {
+                    window.location.href = getCompletionUrl();
+                }
             },
         });
     }
