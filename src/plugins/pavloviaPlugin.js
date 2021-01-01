@@ -221,6 +221,9 @@ jsPsych.plugins['pavlovia'] = (function() {
 			// close the session:
 			response = await _closeSession(true, false);
 			_log('finish | _closeSession.response=', response);
+			if (typeof trial.onComplete === 'function') {
+				trial.onComplete();
+			}
 		}
 		catch (error)
 		{

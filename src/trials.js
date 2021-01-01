@@ -1,5 +1,5 @@
 /* global jsPsych */
-import { range } from './util';
+import { getUrlParam, range } from './util';
 import { queryManifestEntries } from './manifest';
 
 const RECEIVER_ORIENTATION_TYPES = ['matched'];
@@ -8,12 +8,21 @@ const SLOWDOWNS = [7, 14, 21];
 const BLOCK_CENTER_AZIMUTHS = [-60, -30, 0, 30, 60];
 const AZIMUTHS_PER_BLOCK = 5;
 
+const tiny = getUrlParam('tiny');
+
 const getPositionsAroundCenterAzimuth = (center) => {
     const val = range(center - 10, center + 10, 5);
     if (val.length !== AZIMUTHS_PER_BLOCK) {
         throw new Error('Expected azimuth range length to equal AZIMUTHS_PER_BLOCK');
     }
     return val;
+};
+
+const maybeMakeTiny = (items) => {
+    if (tiny) {
+        return items.slice(0, 3);
+    }
+    return items;
 };
 
 export const createPresentationWithChoices = (params, choices) => {
@@ -42,7 +51,7 @@ export const createTrialBlocks = ({ numRepeats }) => {
             numRepeats
         );
         return {
-            presentations: params.map((p) =>
+            presentations: maybeMakeTiny(params).map((p) =>
                 createPresentationWithChoices(p, positionsAroundCenter)
             ),
             slowdown,

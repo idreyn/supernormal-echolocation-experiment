@@ -29,6 +29,7 @@ import WelcomeScreen from './components/WelcomeScreen';
 import { trainingFiles } from './components/TrainingSteps';
 
 import { headphoneCheckFiles } from './headphoneCheck';
+import { getCompletionUrl, getProlificIds } from './prolific';
 
 const isPavlovia = window.location.hostname.includes('pavlovia.org');
 const isLocalhost = window.location.hostname.includes('localhost');
@@ -37,6 +38,7 @@ if (!(isLocalhost || isPavlovia)) {
     throw new Error('Cannot detect environment');
 }
 
+const { prolificPid, sessionId, studyId } = getProlificIds();
 const trialBlocks = createTrialBlocks({ numRepeats: 2 });
 
 export const preload_audio = [
@@ -52,6 +54,9 @@ export function createTimeline() {
         timeline.push({
             type: 'pavlovia',
             command: 'init',
+            participantId: prolificPid,
+            sessionId,
+            studyId,
         });
     }
 
@@ -105,6 +110,9 @@ export function createTimeline() {
         timeline.push({
             type: 'pavlovia',
             command: 'finish',
+            onComplete: () => {
+                window.location.href = getCompletionUrl();
+            },
         });
     }
 
