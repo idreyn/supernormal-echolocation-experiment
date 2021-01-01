@@ -9,6 +9,8 @@ createReactPlugin({
     name: 'keyset-select',
     key: 'keyset-select',
     render: ({ onFinish }) => (
-        <KeysetSelect onFinish={() => onFinish({ chosenKeyset: getChosenKeyset() })} />
+        <KeysetSelect
+            onFinish={() => onFinish({ chosenKeyset: JSON.stringify(getChosenKeyset()) })}
+        />
     ),
 });
