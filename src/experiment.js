@@ -38,7 +38,7 @@ if (!(isLocalhost || isPavlovia)) {
     throw new Error('Cannot detect environment');
 }
 
-const { prolificPid, sessionId, studyId } = getProlificIds();
+const { prolificPid } = getProlificIds();
 const trialBlocks = createTrialBlocks({ numRepeats: 2 });
 
 export const preload_audio = [
@@ -55,8 +55,6 @@ export function createTimeline() {
             type: 'pavlovia',
             command: 'init',
             participantId: prolificPid,
-            sessionId,
-            studyId,
         });
     }
 
@@ -110,6 +108,7 @@ export function createTimeline() {
         timeline.push({
             type: 'pavlovia',
             command: 'finish',
+            participantId: prolificPid,
             onComplete: () => {
                 if (isPavlovia) {
                     window.location.href = getCompletionUrl();
