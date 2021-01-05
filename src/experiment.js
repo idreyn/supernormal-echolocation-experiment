@@ -30,6 +30,7 @@ import { trainingFiles } from './components/TrainingSteps';
 
 import { headphoneCheckFiles } from './headphoneCheck';
 import { getCompletionUrl, getProlificIds } from './prolific';
+import { getUrlParam } from './util';
 
 const isPavlovia = window.location.hostname.includes('pavlovia.org');
 const isLocalhost = window.location.hostname.includes('localhost');
@@ -110,7 +111,7 @@ export function createTimeline() {
             command: 'finish',
             participantId: prolificPid,
             onComplete: () => {
-                if (isPavlovia) {
+                if (isPavlovia && !getUrlParam('tiny')) {
                     window.location.href = getCompletionUrl();
                 }
             },
