@@ -101,7 +101,7 @@ jsPsych.plugins['pavlovia'] = (function() {
 				break;
 
 			case 'finish':
-				const data = jsPsych.data.get().csv();
+				const data = jsPsych.data.get().json();
 				_finish(trial, data);
 				break;
 
@@ -183,7 +183,7 @@ jsPsych.plugins['pavlovia'] = (function() {
 					// get and save the incomplete results if need be:
 					if (_config.experiment.saveIncompleteResults)
 					{
-						const data = jsPsych.data.get().csv();
+						const data = jsPsych.data.get().json();
 						_save(trial, data, true);
 					}
 
@@ -425,7 +425,7 @@ jsPsych.plugins['pavlovia'] = (function() {
 		let dateString = date.getFullYear() + '-' + ('0'+(1+date.getMonth())).slice(-2) + '-' + ('0'+date.getDate()).slice(-2) + '_';
 		dateString += ('0'+date.getHours()).slice(-2) + 'h' + ('0'+date.getMinutes()).slice(-2) + '.' + ('0'+date.getSeconds()).slice(-2) + '.' + date.getMilliseconds();
 
-		const key = _config.experiment.name + '_' + trial.participantId + '_' + 'SESSION' + '_' + dateString + '.csv';
+		const key = _config.experiment.name + '_' + trial.participantId + '_' + 'SESSION' + '_' + dateString + '.json';
 
 		if (_config.experiment.status === 'RUNNING' && !_serverMsg.has('__pilotToken'))
 		{
@@ -433,11 +433,11 @@ jsPsych.plugins['pavlovia'] = (function() {
 		}
 		else
 		{
-			_offerDataForDownload(key, data, 'text/csv');
+			_offerDataForDownload(key, data, 'text/json');
 			return {
 				origin: '_save',
 				context: 'when saving results for experiment: ' + _config.experiment.fullpath,
-				message: 'offered the .csv file for download'
+				message: 'offered the .json file for download'
 			};
 		}
 	};
