@@ -1,6 +1,7 @@
 /* global jsPsych */
 import { getUrlParam, range } from './util';
 import { queryManifestEntries } from './manifest';
+import { getProlificIds } from './prolific';
 
 const RECEIVER_ORIENTATION_TYPES = ['matched'];
 const COMPENSATION_DENOMINATORS = [0, 1, 2]; // slowdown = 20 -> 1, 20, 10
@@ -31,6 +32,8 @@ export const createPresentationWithChoices = (params, choices) => {
         ...queryManifestEntries(params),
     };
 };
+
+jsPsych.data.addProperties({ ...getProlificIds(), userAgent: navigator.userAgent });
 
 export const createTrialBlocks = ({ numRepeats }) => {
     const blockCenters = jsPsych.randomization.repeat(BLOCK_CENTER_AZIMUTHS, 1);
