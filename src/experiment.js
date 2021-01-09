@@ -10,6 +10,7 @@
  * @audioDir audio
  * @videoDir video
  */
+/* global jsPsych */
 import '../styles/main.scss';
 
 import 'jspsych/plugins/jspsych-html-keyboard-response';
@@ -26,11 +27,13 @@ import { createTrialBlocks, getAudioFilesForTrialBlocks } from './trials';
 import { render } from './render';
 
 import WelcomeScreen from './components/WelcomeScreen';
+import DeviceIneligible from './components/DeviceIneligible';
 import { trainingFiles } from './components/TrainingSteps';
 
 import { headphoneCheckFiles } from './headphoneCheck';
 import { getCompletionUrl, getProlificIds } from './prolific';
 import { getUrlParam } from './util';
+import { getDeviceEligibility } from './device';
 
 const isPavlovia = window.location.hostname.includes('pavlovia.org');
 const isLocalhost = window.location.hostname.includes('localhost');
@@ -48,8 +51,18 @@ export const preload_audio = [
     ...headphoneCheckFiles,
 ];
 
+const { isIneligible, ...deviceProblems } = getDeviceEligibility();
+
 export function createTimeline() {
     let timeline = [];
+
+    if (isIneligible) {
+        timeline.push({
+            type: 'html-keyboard-response',
+            choices: jsPsych.NO_KEYS,
+            stimulus: render(DeviceIneligible, { deviceProblems }),
+        });
+    }
 
     if (isPavlovia) {
         timeline.push({
