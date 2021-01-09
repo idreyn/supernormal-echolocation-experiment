@@ -3,7 +3,7 @@ import { getUrlParam, range } from './util';
 import { queryManifestEntries } from './manifest';
 
 const RECEIVER_ORIENTATION_TYPES = ['matched'];
-const COMPENSATION_DENOMINATORS = [0, 1, 2, 4];
+const COMPENSATION_DENOMINATORS = [0, 1, 2]; // slowdown = 20 -> 1, 20, 10
 const SLOWDOWNS = [7, 14, 21];
 const BLOCK_CENTER_AZIMUTHS = [-60, -30, 0, 30, 60];
 const AZIMUTHS_PER_BLOCK = 5;
@@ -34,18 +34,26 @@ export const createPresentationWithChoices = (params, choices) => {
 
 export const createTrialBlocks = ({ numRepeats }) => {
     const blockCenters = jsPsych.randomization.repeat(BLOCK_CENTER_AZIMUTHS, 1);
+
     const slowdowns = jsPsych.randomization.repeat(
         SLOWDOWNS,
-        Math.ceil(BLOCK_CENTER_AZIMUTHS.length / SLOWDOWNS.length)
+        Math.ceil(blockCenters.length / SLOWDOWNS.length)
     );
+
+    const compensationDenominators = jsPsych.randomization.repeat(
+        COMPENSATION_DENOMINATORS,
+        Math.ceil(blockCenters.length / SLOWDOWNS.length)
+    );
+
     return blockCenters.map((center, index) => {
         const slowdown = slowdowns[index];
+        const compensationDenominator = compensationDenominators[index];
         const positionsAroundCenter = getPositionsAroundCenterAzimuth(center);
         const params = jsPsych.randomization.factorial(
             {
                 slowdown: [slowdown],
+                compensationDenominator: [compensationDenominator],
                 receiverOrientationType: RECEIVER_ORIENTATION_TYPES,
-                compensationDenominator: COMPENSATION_DENOMINATORS,
                 azimuth: positionsAroundCenter,
             },
             numRepeats

@@ -1,5 +1,5 @@
 /**
- * @title supernormal-echolocation-presentation
+ * @title Echolocation experiment
  * @description Presents supernormal echolocation stimuli
  * @version 0.1
  *

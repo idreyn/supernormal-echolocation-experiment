@@ -1,16 +1,4 @@
 export const keysetOptions = {
-    numberKeys: {
-        title: 'Number keys',
-        keys: '12345'.split(''),
-    },
-    leftHand: {
-        title: 'Left hand',
-        keys: 'qwerv'.split(''),
-    },
-    rightHand: {
-        title: 'Right hand',
-        keys: 'nuiop'.split(''),
-    },
     leftHandSpace: {
         title: 'Left hand (home row)',
         keys: ['a', 's', 'd', 'f', 'space'],

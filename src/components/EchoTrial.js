@@ -49,22 +49,26 @@ const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 500
     }, [presentationState]);
 
     const handleChoiceByKey = (key) => {
+        if (chosenAzimuth) {
+            return;
+        }
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
         const responseDelay = Date.now() - playStartTime;
-        const chosenAzimuth = azimuthChoiceMap[key];
-        if (typeof chosenAzimuth !== 'number') {
+        const nextChosenAzimuth = azimuthChoiceMap[key];
+        if (typeof nextChosenAzimuth !== 'number') {
             throw new Error('Got invalid choice of azimuth.');
         }
-        setChosenAzimuth(chosenAzimuth);
-        setTimeout(() => onFinish({ chosenAzimuth, responseDelay }), 500);
+        setChosenAzimuth(nextChosenAzimuth);
+        setTimeout(() => onFinish({ chosenAzimuth: nextChosenAzimuth, responseDelay }), 500);
     };
 
     const renderChoiceKeysDescription = () => (
         <>
-            Use the <Keyset triggers={responseKeys} onSelect={handleChoiceByKey} /> keys to pick the
-            direction closest to where you heard the echo from.
+            Use the{' '}
+            <Keyset triggers={responseKeys} onSelect={handleChoiceByKey} showSpaceAsUnderscore />{' '}
+            keys to pick the direction closest to where you heard the echo from.
         </>
     );
 
