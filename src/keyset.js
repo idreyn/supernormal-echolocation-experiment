@@ -1,15 +1,17 @@
 export const keysetOptions = {
-    leftHandSpace: {
+    leftHand: {
+        id: 'left-hand',
         title: 'Left hand (home row)',
         keys: ['a', 's', 'd', 'f', 'space'],
     },
-    righHandSpace: {
+    righHand: {
+        id: 'right-hand',
         title: 'Right hand (home row)',
         keys: ['space', 'j', 'k', 'l', ';'],
     },
 };
 
-let chosenKeyset = keysetOptions.numberKeys;
+let chosenKeyset = keysetOptions.leftHand;
 
 export const getChosenKeyset = () => chosenKeyset;
 
