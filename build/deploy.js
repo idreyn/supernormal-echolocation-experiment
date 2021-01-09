@@ -28,10 +28,10 @@ const main = () => {
         execHere(`git remote add origin ${remoteUrl}`);
         execHere(`git fetch`);
     }
+    execHere(`git branch --set-upstream-to origin/${branch}`);
     execHere(`git pull`);
     execHere(`git add .`);
     execHere(`git commit -am "Deployment on ${new Date().toString()}" --allow-empty`);
-    execHere(`git branch --set-upstream-to origin/${branch}`);
     execHere(`git push -f`);
 };
 
