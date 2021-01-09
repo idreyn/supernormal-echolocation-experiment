@@ -101,7 +101,7 @@ jsPsych.plugins['pavlovia'] = (function() {
 				break;
 
 			case 'finish':
-				const data = jsPsych.data.get().json();
+				const data = jsPsych.data.get().csv();
 				_finish(trial, data);
 				break;
 
@@ -183,7 +183,7 @@ jsPsych.plugins['pavlovia'] = (function() {
 					// get and save the incomplete results if need be:
 					if (_config.experiment.saveIncompleteResults)
 					{
-						const data = jsPsych.data.get().json();
+						const data = jsPsych.data.get().csv();
 						_save(trial, data, true);
 					}
 
