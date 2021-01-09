@@ -11,6 +11,7 @@
     "update-stims": "node -r esm build/updateStims.js"
   },
   "dependencies": {
+    "check-ie": "^2.0.1",
     "classnames": "^2.2.6",
     "jquery": "^3.5.1",
     "jspsych": "github:jspsych/jsPsych#v6.1.0",

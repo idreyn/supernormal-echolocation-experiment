@@ -1,6 +1,17 @@
 import React from 'react';
+import checkIe from 'check-ie';
+
+const isInternetExplorer = checkIe(navigator.userAgent);
 
 const WelcomeScreen = () => {
+    if (isInternetExplorer) {
+        return (
+            <div>
+                <h1>Internet Explorer is not supported</h1>
+                <p>Please return to this link using a modern browser like Firefox or Chrome.</p>
+            </div>
+        );
+    }
     if (window.innerWidth < 800) {
         return (
             <div>
