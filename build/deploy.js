@@ -24,12 +24,14 @@ const main = () => {
     const mustInitRepo = getExistingRemoteUrl() !== remoteUrl;
     if (mustInitRepo) {
         fs.removeSync(path.join(targetDirectory, '.git'));
-        execHere('git init');
+        execHere(`git init`);
+        execHere(`git commit -am "initial commit" --allow-empty`);
+        execHere(`git branch -m ${branch}`);
         execHere(`git remote add origin ${remoteUrl}`);
         execHere(`git fetch`);
     }
-    execHere(`git branch --set-upstream-to origin/${branch}`);
-    execHere(`git pull`);
+    execHere(`git branch --set-upstream-to origin/${branch} ${branch}`);
+    execHere(`git checkout origin/${branch} -- data`);
     execHere(`git add .`);
     execHere(`git commit -am "Deployment on ${new Date().toString()}" --allow-empty`);
     execHere(`git push -f`);
