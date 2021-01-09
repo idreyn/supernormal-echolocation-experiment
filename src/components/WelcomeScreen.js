@@ -1,10 +1,10 @@
 import React from 'react';
 import checkIe from 'check-ie';
 
-const isInternetExplorer = checkIe(navigator.userAgent);
+const { isIE } = checkIe(navigator.userAgent);
 
 const WelcomeScreen = () => {
-    if (isInternetExplorer) {
+    if (isIE) {
         return (
             <div>
                 <h1>Internet Explorer is not supported</h1>
