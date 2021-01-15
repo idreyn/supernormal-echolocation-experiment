@@ -271,7 +271,7 @@ body {
   padding: 20px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
-  section:first-child > p:first-child {
+  section:first-child > *:first-child {
     margin-top: 0;
   }
   li:not(:last-child) {
