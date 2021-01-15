@@ -22,6 +22,7 @@ import './plugins/headphoneCheckPlugin';
 import './plugins/keysetSelectPlugin';
 import './plugins/pavloviaPlugin';
 import './plugins/trainingPlugin';
+import './plugins/consentFormPlugin';
 
 import { createTrialBlocks, getAudioFilesForTrialBlocks } from './trials';
 import { render } from './render';
@@ -75,6 +76,10 @@ export function createTimeline() {
     timeline.push({
         type: 'html-keyboard-response',
         stimulus: render(WelcomeScreen),
+    });
+
+    timeline.push({
+        type: 'consent-form',
     });
 
     timeline.push({

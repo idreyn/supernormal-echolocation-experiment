@@ -4,7 +4,7 @@ const WelcomeScreen = () => {
     return (
         <div>
             <h1>Welcome!</h1>
-            <p>Beep bloop bloop. Press any key to continue.</p>
+            <p>Press any key to continue.</p>
         </div>
     );
 };

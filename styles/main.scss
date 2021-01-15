@@ -262,3 +262,19 @@ body {
     }
   }
 }
+
+.consent-form-content {
+  position: relative;
+  height: 500px;
+  max-height: 70vh;
+  overflow-y: scroll;
+  padding: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  section:first-child > p:first-child {
+    margin-top: 0;
+  }
+  li:not(:last-child) {
+    margin-bottom: 0.5em;
+  }
+}
