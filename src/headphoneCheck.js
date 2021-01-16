@@ -32,7 +32,13 @@ export const calibrationFilename = queryManifestEntries({
     receiverOrientationType: 'matched',
 }).filename;
 
+export const stereoFilenames = [
+    getAssetFilenameForKey('left-tone.wav'),
+    getAssetFilenameForKey('right-tone.wav'),
+];
+
 export const headphoneCheckFiles = [
     ...Object.keys(correctAnswerMap).map(getAssetFilenameForKey),
+    ...stereoFilenames,
     calibrationFilename,
 ];

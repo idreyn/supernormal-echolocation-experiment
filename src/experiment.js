@@ -18,6 +18,7 @@ import 'jspsych/plugins/jspsych-fullscreen';
 
 import './plugins/blockBookendPlugin';
 import './plugins/echoPlugin';
+import './plugins/headphoneBackwardsCheckPlugin';
 import './plugins/headphoneCheckPlugin';
 import './plugins/keysetSelectPlugin';
 import './plugins/pavloviaPlugin';
@@ -88,6 +89,10 @@ export function createTimeline() {
 
     timeline.push({
         type: 'headphone-check',
+    });
+
+    timeline.push({
+        type: 'headphone-backwards-check',
     });
 
     timeline.push({
