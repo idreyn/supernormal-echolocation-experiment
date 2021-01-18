@@ -27,7 +27,7 @@ export const getRandomHeadphoneCheck = (length) => {
 
 export const calibrationFilename = queryManifestEntries({
     azimuth: 0,
-    slowdown: 21,
+    slowdown: 20,
     compensationDenominator: 1,
     receiverOrientationType: 'matched',
 }).filename;
