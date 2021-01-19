@@ -12,6 +12,7 @@ const HeadphoneBackwardsCheck = ({ onFinish }) => {
     const [correctResponse, setCorrectIndex] = useState(null);
     const [isResponding, setIsResponding] = useState(false);
     const [showCorrection, setShowCorrection] = useState(false);
+    const [failureCount, setFailureCount] = useState(0);
 
     const handlePlayClick = () => {
         const correctIndex = Math.random() > 0.5 ? LEFT : RIGHT;
@@ -22,10 +23,11 @@ const HeadphoneBackwardsCheck = ({ onFinish }) => {
 
     const handleResponse = (response) => {
         if (response === correctResponse) {
-            onFinish();
+            onFinish(failureCount);
         } else {
             setIsResponding(false);
             setShowCorrection(true);
+            setFailureCount((c) => c + 1);
         }
     };
 

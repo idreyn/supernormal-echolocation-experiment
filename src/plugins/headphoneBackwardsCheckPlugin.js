@@ -7,5 +7,7 @@ import { createReactPlugin } from './createReactPlugin';
 createReactPlugin({
     name: 'headphone-backwards-check',
     key: 'headphone-backwards-check',
-    render: ({ onFinish }) => <HeadphoneBackwardsCheck onFinish={onFinish} />,
+    render: ({ onFinish }) => (
+        <HeadphoneBackwardsCheck onFinish={(failureCount) => onFinish({ failureCount })} />
+    ),
 });
