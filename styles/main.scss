@@ -3,7 +3,7 @@ $primary-darker: darken($primary, 10%);
 $primary-darkest: darken($primary, 20%);
 $echoes: slateblue;
 $choice: darkgoldenrod;
-$stage-size: 70vh;
+$stage-size: 80vh;
 
 html,
 body {
@@ -266,7 +266,7 @@ body {
 .consent-form-content {
   position: relative;
   height: 500px;
-  max-height: 70vh;
+  max-height: 70vw;
   overflow-y: scroll;
   padding: 20px;
   margin-bottom: 10px;

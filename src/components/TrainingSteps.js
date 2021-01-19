@@ -10,7 +10,7 @@ const presentations = {
         {
             receiverOrientationType: 'matched',
             azimuth: 45,
-            compensationDenominator: 1,
+            compensationDescriptor: 'full',
             slowdown: 20,
         },
         [30, 35, 40, 45, 50]
@@ -18,13 +18,13 @@ const presentations = {
     second: createPresentationWithChoices({
         receiverOrientationType: 'matched',
         azimuth: -60,
-        compensationDenominator: 1,
+        compensationDescriptor: 'full',
         slowdown: 20,
     }),
     third: createPresentationWithChoices({
         receiverOrientationType: 'matched',
         azimuth: 15,
-        compensationDenominator: 1,
+        compensationDescriptor: 'full',
         slowdown: 12,
     }),
 };

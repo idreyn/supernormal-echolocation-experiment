@@ -1,12 +1,20 @@
 import manifestRows from './_manifestData';
 
+const numberOrString = (val) => {
+    const asNumber = parseFloat(val);
+    if (Number.isNaN(asNumber)) {
+        return val.toString();
+    }
+    return asNumber;
+};
 const number = (str) => parseFloat(str);
 const string = (any) => any.toString();
 const stimFileName = (name) => `media/audio/stims/${name}`;
 
 const manifestStructure = {
     azimuth: ['azimuth', number],
-    compensation_denominator: ['compensationDenominator', number],
+    compensation_descriptor: ['compensationDescriptor', numberOrString],
+    compensation: ['compensation', number],
     filename: ['filename', stimFileName],
     receiver_orientation_type: ['receiverOrientationType', string],
     slowdown: ['slowdown', number],

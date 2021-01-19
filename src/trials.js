@@ -4,7 +4,7 @@ import { queryManifestEntries } from './manifest';
 import { getProlificIds } from './prolific';
 
 const RECEIVER_ORIENTATION_TYPES = ['matched'];
-const COMPENSATION_DENOMINATORS = [0, 1, 2]; // slowdown = 20 -> 1, 20, 10
+const COMPENSATION_DESCRIPTORS = [1, 2, 'half', 'full'];
 const SLOWDOWNS = [12, 16, 20];
 const BLOCK_CENTER_AZIMUTHS = [-60, -30, 0, 30, 60];
 const AZIMUTHS_PER_BLOCK = 5;
@@ -43,19 +43,19 @@ export const createTrialBlocks = ({ numRepeats }) => {
         Math.ceil(blockCenters.length / SLOWDOWNS.length)
     );
 
-    const compensationDenominators = jsPsych.randomization.repeat(
-        COMPENSATION_DENOMINATORS,
+    const compensationDescriptors = jsPsych.randomization.repeat(
+        COMPENSATION_DESCRIPTORS,
         Math.ceil(blockCenters.length / SLOWDOWNS.length)
     );
 
     return blockCenters.map((center, index) => {
         const slowdown = slowdowns[index];
-        const compensationDenominator = compensationDenominators[index];
+        const compensationDescriptor = compensationDescriptors[index];
         const positionsAroundCenter = getPositionsAroundCenterAzimuth(center);
         const params = jsPsych.randomization.factorial(
             {
                 slowdown: [slowdown],
-                compensationDenominator: [compensationDenominator],
+                compensationDescriptor: [compensationDescriptor],
                 receiverOrientationType: RECEIVER_ORIENTATION_TYPES,
                 azimuth: positionsAroundCenter,
             },
