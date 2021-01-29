@@ -1,31 +1,35 @@
 import React, { useCallback, useState } from 'react';
+
 import { createPresentationWithChoices } from '../trials';
+import { compensationDescriptor, slowdown } from '../params';
+
 import EchoTrial from './EchoTrial';
 import EchoVisualization from './EchoVisualization';
-import { KeyboardResponse, PressSpaceToContinue } from './KeyboardResponse';
+import { KeyboardResponse, ContinueKey } from './KeyboardResponse';
 import TrainingEchoPresentation from './TrainingEchoPresentation';
+import { getOrdinalChoiceMap, range } from '../util';
 
 const presentations = {
     first: createPresentationWithChoices(
         {
             receiverOrientationType: 'matched',
             azimuth: 45,
-            compensationDescriptor: 'full',
-            slowdown: 20,
+            compensationDescriptor,
+            slowdown,
         },
         [30, 35, 40, 45, 50]
     ),
     second: createPresentationWithChoices({
         receiverOrientationType: 'matched',
         azimuth: -60,
-        compensationDescriptor: 'full',
-        slowdown: 20,
+        compensationDescriptor,
+        slowdown,
     }),
     third: createPresentationWithChoices({
         receiverOrientationType: 'matched',
-        azimuth: 15,
-        compensationDescriptor: 'full',
-        slowdown: 12,
+        azimuth: 60,
+        compensationDescriptor,
+        slowdown,
     }),
 };
 
@@ -48,7 +52,7 @@ const background = (next) => (
         <p>We need your judgement to help build the best possible version of this device.</p>
         <p>
             <KeyboardResponse delaySeconds={0}>
-                <PressSpaceToContinue handler={next} />
+                <ContinueKey handler={next} />
             </KeyboardResponse>
         </p>
     </div>
@@ -61,7 +65,7 @@ const stageLayout = (next) => (
                 This black dot represents your head, seen from above. All of the sounds you will
                 hear are echoes from targets on the ring in front of you.{' '}
                 <KeyboardResponse delaySeconds={2}>
-                    <PressSpaceToContinue handler={next} />
+                    <ContinueKey handler={next} />
                 </KeyboardResponse>
             </>
         }
@@ -83,7 +87,7 @@ const firstSample = (next) => (
 const secondSample = (next) => (
     <TrainingEchoPresentation
         key="different-azimuth-presentation"
-        description={<>These can come from different positions...</>}
+        description={<>These echoes can come from the left...</>}
         presentation={presentations.second}
         onFinish={next}
     />
@@ -92,7 +96,7 @@ const secondSample = (next) => (
 const thirdSample = (next) => (
     <TrainingEchoPresentation
         key="different-speeds-presentation"
-        description={<>...and may be played at different speeds.</>}
+        description={<>...or from the right.</>}
         presentation={presentations.third}
         onFinish={next}
     />
@@ -100,13 +104,13 @@ const thirdSample = (next) => (
 
 const readyToTry = (next) => (
     <EchoVisualization
-        azimuthChoiceMap={{ 1: 10, 2: 15, 3: 20, 4: 25, 5: 30 }}
+        azimuthChoiceMap={getOrdinalChoiceMap(range(10, 25, 5))}
         description={
             <>
                 After each sound, you will be asked to estimate which angle the echo came from. You
                 will choose from a set of five closely-spaced choices. Let's try an example.{' '}
                 <KeyboardResponse delaySeconds={2}>
-                    <PressSpaceToContinue handler={next} />
+                    <ContinueKey handler={next} />
                 </KeyboardResponse>
             </>
         }
@@ -126,7 +130,7 @@ const readyToBegin = (next) => (
     <EchoVisualization
         description={
             <>
-                Perfect! You're ready to begin. <PressSpaceToContinue handler={next} />
+                Perfect! You're ready to begin. <ContinueKey handler={next} />
             </>
         }
     />

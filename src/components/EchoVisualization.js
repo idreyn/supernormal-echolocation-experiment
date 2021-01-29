@@ -96,7 +96,7 @@ const EchoVisualization = (props) => {
                         )}
                         style={{
                             ...getRadialPositionStyle(targetDistance, azimuth),
-                            ...getCircleStyle(0.015),
+                            ...getCircleStyle(0.02),
                         }}
                     >
                         {label === 'space' ? '_' : label.toUpperCase()}

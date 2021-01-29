@@ -36,6 +36,7 @@ import { headphoneCheckFiles } from './headphoneCheck';
 import { getCompletionUrl, getProlificIds } from './prolific';
 import { getUrlParam } from './util';
 import { getDeviceEligibility } from './device';
+import { isTiny } from './params';
 
 const isPavlovia = window.location.hostname.includes('pavlovia.org');
 const isLocalhost = window.location.hostname.includes('localhost');
@@ -45,7 +46,7 @@ if (!(isLocalhost || isPavlovia)) {
 }
 
 const { prolificPid } = getProlificIds();
-const trialBlocks = createTrialBlocks({ numRepeats: 2 });
+const trialBlocks = createTrialBlocks();
 
 export const preload_audio = [
     ...getAudioFilesForTrialBlocks(trialBlocks),
@@ -58,52 +59,56 @@ const { isIneligible, ...deviceProblems } = getDeviceEligibility();
 export function createTimeline() {
     let timeline = [];
 
-    if (isIneligible) {
+    if (!getUrlParam('skipTraining')) {
+        if (!getUrlParam('skipToTraining')) {
+            if (isIneligible) {
+                timeline.push({
+                    type: 'html-keyboard-response',
+                    choices: jsPsych.NO_KEYS,
+                    stimulus: render(DeviceIneligible, { deviceProblems }),
+                });
+            }
+
+            if (isPavlovia) {
+                timeline.push({
+                    type: 'pavlovia',
+                    command: 'init',
+                    participantId: prolificPid,
+                });
+            }
+
+            timeline.push({
+                type: 'html-keyboard-response',
+                stimulus: render(WelcomeScreen),
+            });
+
+            timeline.push({
+                type: 'consent-form',
+            });
+
+            timeline.push({
+                type: 'keyset-select',
+            });
+
+            timeline.push({
+                type: 'headphone-check',
+            });
+
+            timeline.push({
+                type: 'headphone-backwards-check',
+            });
+        }
+
         timeline.push({
-            type: 'html-keyboard-response',
-            choices: jsPsych.NO_KEYS,
-            stimulus: render(DeviceIneligible, { deviceProblems }),
+            type: 'training',
         });
     }
-
-    if (isPavlovia) {
-        timeline.push({
-            type: 'pavlovia',
-            command: 'init',
-            participantId: prolificPid,
-        });
-    }
-
-    timeline.push({
-        type: 'html-keyboard-response',
-        stimulus: render(WelcomeScreen),
-    });
-
-    timeline.push({
-        type: 'consent-form',
-    });
-
-    timeline.push({
-        type: 'keyset-select',
-    });
-
-    timeline.push({
-        type: 'headphone-check',
-    });
-
-    timeline.push({
-        type: 'headphone-backwards-check',
-    });
-
-    timeline.push({
-        type: 'training',
-    });
 
     trialBlocks.forEach((block, blockIndex, { length: blockCount }) => {
         const blockNumber = blockIndex + 1;
         timeline.push({
             type: 'block-bookend',
-            slowdown: block.slowdown,
+            azimuths: block.azimuths,
             blockNumber,
             blockCount,
         });
@@ -134,7 +139,7 @@ export function createTimeline() {
             command: 'finish',
             participantId: prolificPid,
             onComplete: () => {
-                if (isPavlovia && !getUrlParam('tiny')) {
+                if (isPavlovia && !isTiny) {
                     window.location.href = getCompletionUrl();
                 }
             },

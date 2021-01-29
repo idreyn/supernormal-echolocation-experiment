@@ -1,63 +1,57 @@
 import React from 'react';
-import { KeyboardTrigger, PressSpaceToContinue } from './KeyboardResponse';
 
-const describeSlowdown = (slowdown) => {
-    if (slowdown > 15) {
-        return 'slow';
-    } else if (slowdown > 10) {
-        return 'slower';
-    } else {
-        return 'fast';
-    }
-};
+import { getOrdinalChoiceMap } from '../util';
 
-const BlockBookend = ({ isEnd, blockNumber, blockCount, slowdown, onFinish }) => {
-    const renderInner = () => {
-        if (isEnd) {
-            if (blockNumber === blockCount) {
-                return (
-                    <>
-                        <h1>
-                            Finished block {blockNumber} of {blockCount}
-                        </h1>
-                        <p>Nice work! Please do not close this browser tab yet.</p>
-                        <p>
-                            <PressSpaceToContinue handler={onFinish} />
-                        </p>
-                    </>
-                );
-            }
-            const nextOrFinal = blockNumber + 1 === blockCount ? 'final' : 'next';
+import EchoVisualization from './EchoVisualization';
+import { KeyboardTrigger, ContinueKey } from './KeyboardResponse';
+
+const BlockBookend = ({ isEnd, blockNumber, blockCount, onFinish, azimuths }) => {
+    if (isEnd) {
+        if (blockNumber === blockCount) {
             return (
-                <>
+                <div className="text-content">
                     <h1>
                         Finished block {blockNumber} of {blockCount}
                     </h1>
+                    <p>Nice work! Please do not close this browser tab yet.</p>
                     <p>
-                        Nice work. Take a moment, and when you're ready, press{' '}
-                        <KeyboardTrigger trigger="space" handler={onFinish} /> to continue to the{' '}
-                        {nextOrFinal} block.
+                        <ContinueKey handler={onFinish} />
                     </p>
-                </>
+                </div>
             );
         }
+        const nextOrFinal = blockNumber + 1 === blockCount ? 'final' : 'next';
         return (
-            <>
+            <div className="text-content">
                 <h1>
-                    Block {blockNumber} of {blockCount}
+                    Finished block {blockNumber} of {blockCount}
                 </h1>
                 <p>
-                    The echoes you will hear in this block are <b>{describeSlowdown(slowdown)}</b>.
+                    Nice work. Take a moment, and when you're ready, press{' '}
+                    <KeyboardTrigger trigger="enter" handler={onFinish} /> to continue to the{' '}
+                    {nextOrFinal} block.
                 </p>
-                <p>
-                    When you're ready, press <KeyboardTrigger trigger="space" handler={onFinish} />{' '}
-                    to begin.
-                </p>
-            </>
+            </div>
         );
-    };
+    }
 
-    return <div className="text-content">{renderInner()}</div>;
+    return (
+        <EchoVisualization
+            azimuthChoiceMap={getOrdinalChoiceMap(azimuths)}
+            description={
+                <>
+                    <h1>
+                        Block {blockNumber} of {blockCount}
+                    </h1>
+                    <p>
+                        All of the sounds you'll hear in this block will come from this range of
+                        angles. When you're ready, press{' '}
+                        <KeyboardTrigger trigger="enter" handler={onFinish} /> to begin.
+                    </p>
+                </>
+            }
+        />
+    );
 };
 
 export default BlockBookend;

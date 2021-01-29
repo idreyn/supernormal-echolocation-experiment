@@ -40,7 +40,7 @@ export const KeyboardTrigger = ({
     }, [disabled, normalizedTrigger, handler]);
 
     return (
-        <span className={classNames('keyboard-trigger', normalizedTrigger === 'space' && 'space')}>
+        <span className={classNames('keyboard-trigger', normalizedTrigger.length > 1 && 'long')}>
             {label}
         </span>
     );
@@ -59,8 +59,8 @@ export const Keyset = ({ triggers, onSelect, showSpaceAsUnderscore }) => (
     </span>
 );
 
-export const PressSpaceToContinue = ({ handler }) => (
-    <span className="press-space-to-continue">
-        Press <KeyboardTrigger trigger="space" handler={handler} /> to continue.
+export const ContinueKey = ({ handler }) => (
+    <span className="continue-key">
+        Press <KeyboardTrigger trigger="enter" handler={handler} /> to continue.
     </span>
 );

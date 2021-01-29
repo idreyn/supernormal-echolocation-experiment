@@ -1,18 +1,19 @@
 /* global jsPsych */
-import { getUrlParam, range } from './util';
+import { range } from './util';
 import { queryManifestEntries } from './manifest';
 import { getProlificIds } from './prolific';
-
-const RECEIVER_ORIENTATION_TYPES = ['matched'];
-const COMPENSATION_DESCRIPTORS = [1, 2, 'half', 'full'];
-const SLOWDOWNS = [12, 16, 20];
-const BLOCK_CENTER_AZIMUTHS = [-60, -30, 0, 30, 60];
-const AZIMUTHS_PER_BLOCK = 5;
-
-const tiny = getUrlParam('tiny');
+import {
+    RECEIVER_ORIENTATION_TYPES,
+    BLOCK_CENTER_AZIMUTHS,
+    AZIMUTHS_PER_BLOCK,
+    REPEATS_PER_BLOCK,
+    compensationDescriptor,
+    slowdown,
+    isTiny,
+} from './params';
 
 const getPositionsAroundCenterAzimuth = (center) => {
-    const val = range(center - 10, center + 10, 5);
+    const val = range(center - 20, center + 20, 10);
     if (val.length !== AZIMUTHS_PER_BLOCK) {
         throw new Error('Expected azimuth range length to equal AZIMUTHS_PER_BLOCK');
     }
@@ -20,7 +21,7 @@ const getPositionsAroundCenterAzimuth = (center) => {
 };
 
 const maybeMakeTiny = (items) => {
-    if (tiny) {
+    if (isTiny) {
         return items.slice(0, 3);
     }
     return items;
@@ -35,37 +36,25 @@ export const createPresentationWithChoices = (params, choices) => {
 
 jsPsych.data.addProperties({ ...getProlificIds(), userAgent: navigator.userAgent });
 
-export const createTrialBlocks = ({ numRepeats }) => {
-    const blockCenters = jsPsych.randomization.repeat(BLOCK_CENTER_AZIMUTHS, 1);
+export const createTrialBlocks = () => {
+    const blockCenters = jsPsych.randomization.repeat(BLOCK_CENTER_AZIMUTHS, 2);
 
-    const slowdowns = jsPsych.randomization.repeat(
-        SLOWDOWNS,
-        Math.ceil(blockCenters.length / SLOWDOWNS.length)
-    );
-
-    const compensationDescriptors = jsPsych.randomization.repeat(
-        COMPENSATION_DESCRIPTORS,
-        Math.ceil(blockCenters.length / SLOWDOWNS.length)
-    );
-
-    return blockCenters.map((center, index) => {
-        const slowdown = slowdowns[index];
-        const compensationDescriptor = compensationDescriptors[index];
-        const positionsAroundCenter = getPositionsAroundCenterAzimuth(center);
+    return blockCenters.map((center) => {
+        const azimuthsAroundCenter = getPositionsAroundCenterAzimuth(center);
         const params = jsPsych.randomization.factorial(
             {
                 slowdown: [slowdown],
                 compensationDescriptor: [compensationDescriptor],
                 receiverOrientationType: RECEIVER_ORIENTATION_TYPES,
-                azimuth: positionsAroundCenter,
+                azimuth: azimuthsAroundCenter,
             },
-            numRepeats
+            REPEATS_PER_BLOCK
         );
         return {
             presentations: maybeMakeTiny(params).map((p) =>
-                createPresentationWithChoices(p, positionsAroundCenter)
+                createPresentationWithChoices(p, azimuthsAroundCenter)
             ),
-            slowdown,
+            azimuths: azimuthsAroundCenter,
         };
     });
 };

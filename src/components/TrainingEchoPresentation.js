@@ -16,7 +16,7 @@ const TrainingEchoPresentation = ({ onFinish, presentation, description }) => {
                         trigger="R"
                         handler={() => setPlayKey((k) => k + 1)}
                     />{' '}
-                    to replay, or <KeyboardTrigger trigger="space" handler={onFinish} /> to
+                    to replay, or <KeyboardTrigger trigger="enter" handler={onFinish} /> to
                     continue.
                 </>
             )}

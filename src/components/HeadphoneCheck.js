@@ -1,13 +1,10 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 
 import { calibrationFilename, getRandomHeadphoneCheck } from '../headphoneCheck';
-import { getUrlParam } from '../util';
 
 import { useAudio } from './hooks/useAudio';
-import { KeyboardTrigger, Keyset, PressSpaceToContinue } from './KeyboardResponse';
+import { KeyboardTrigger, Keyset, ContinueKey } from './KeyboardResponse';
 import VolumeCalibration from './VolumeCalibration';
-
-const shouldSkipTest = getUrlParam('skipHeadphoneCheck');
 
 const HeadphoneCheck = ({ onFinish, testLength, permittedFailures }) => {
     const [stage, setStage] = useState('intro');
@@ -47,11 +44,7 @@ const HeadphoneCheck = ({ onFinish, testLength, permittedFailures }) => {
 
     useEffect(() => {
         if (stage === 'test') {
-            if (shouldSkipTest) {
-                handleFinish();
-            } else {
-                setTestIndex(0);
-            }
+            setTestIndex(0);
         }
     }, [stage]);
 
@@ -63,7 +56,7 @@ const HeadphoneCheck = ({ onFinish, testLength, permittedFailures }) => {
                         <h1>All set!</h1>
                         <p>Please keep your headphones on for the duration of the experiment.</p>
                         <p>
-                            <PressSpaceToContinue handler={handleFinish} />
+                            <ContinueKey handler={handleFinish} />
                         </p>
                     </>
                 );
@@ -85,7 +78,7 @@ const HeadphoneCheck = ({ onFinish, testLength, permittedFailures }) => {
                         On the following screens, we will perform a quick check of your headphones'
                         capability.
                     </p>
-                    <PressSpaceToContinue handler={() => setStage('volume')} />
+                    <ContinueKey handler={() => setStage('volume')} />
                 </>
             );
         }

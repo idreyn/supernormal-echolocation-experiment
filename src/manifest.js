@@ -1,14 +1,6 @@
 import manifestRows from './_manifestData';
+import { number, string, numberOrString } from './util';
 
-const numberOrString = (val) => {
-    const asNumber = parseFloat(val);
-    if (Number.isNaN(asNumber)) {
-        return val.toString();
-    }
-    return asNumber;
-};
-const number = (str) => parseFloat(str);
-const string = (any) => any.toString();
 const stimFileName = (name) => `media/audio/stims/${name}`;
 
 const manifestStructure = {

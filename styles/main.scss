@@ -69,7 +69,7 @@ body {
   }
 }
 
-.press-space-to-continue {
+.continue-key {
   animation: fade-in;
   animation-duration: 0.5s;
 }
@@ -171,7 +171,7 @@ body {
   width: 1.2em;
   height: 1.2em;
   font-size: 0.8em;
-  &.space {
+  &.long {
     width: unset;
     padding-left: 10px;
     padding-right: 10px;
@@ -185,6 +185,7 @@ body {
   display: flex;
   align-items: center;
   width: 100%;
+  max-width: 650px;
   margin-bottom: 20px;
   .label {
     flex-shrink: 0;
@@ -199,6 +200,9 @@ body {
     .block {
       width: calc(20% - 5px);
       background: #eee;
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
       .block-progress {
         height: 100%;
         background: $primary;

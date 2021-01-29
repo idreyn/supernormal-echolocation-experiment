@@ -1,19 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { getChosenKeyset } from '../keyset';
+import { getKeyChoiceMap } from '../util';
 import EchoPresentation from './EchoPresentation';
 import EchoVisualization from './EchoVisualization';
 import { Keyset } from './KeyboardResponse';
-
-const mapChoicesToResponseKeys = (responseKeys, choices) => {
-    if (choices.length !== responseKeys.length) {
-        throw new Error('Need number of choices and keys to match');
-    }
-    const res = {};
-    responseKeys.forEach((key, index) => {
-        res[key] = choices[index];
-    });
-    return res;
-};
 
 const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 5000 }) => {
     const { keys: responseKeys } = getChosenKeyset();
@@ -23,7 +13,7 @@ const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 500
     const [playStartTime, setPlayStartTime] = useState(null);
     const { choices } = presentation;
 
-    const azimuthChoiceMap = useMemo(() => mapChoicesToResponseKeys(responseKeys, choices), [
+    const azimuthChoiceMap = useMemo(() => getKeyChoiceMap(responseKeys, choices), [
         responseKeys,
         choices,
     ]);
@@ -85,6 +75,7 @@ const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 500
     if (presentationState === 'playing') {
         return (
             <EchoPresentation
+                showPulseAnimation={false}
                 presentation={presentation}
                 onFinish={() => setPresentationState('played')}
             />
