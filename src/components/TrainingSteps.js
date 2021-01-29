@@ -31,6 +31,15 @@ const presentations = {
         compensationDescriptor,
         slowdown,
     }),
+    fourth: createPresentationWithChoices(
+        {
+            receiverOrientationType: 'matched',
+            azimuth: 30,
+            compensationDescriptor,
+            slowdown,
+        },
+        [30, 35, 40, 45, 50]
+    ),
 };
 
 export const trainingFiles = Object.values(presentations).map((pr) => pr.filename);
@@ -43,11 +52,6 @@ const background = (next) => (
             artificial ears that slow down the echoes they pick up, so the wearer of the device can
             hear them. The echoes are in stereo, so it's possible to tell what direction they are
             coming from.
-        </p>
-        <p>
-            There are still some things that we don't know, like how much to slow down the sound, or
-            how the device's ears should be positioned. Our goal is to make it as easy as possible
-            to tell where the echoes are coming from.
         </p>
         <p>We need your judgement to help build the best possible version of this device.</p>
         <p>
@@ -87,7 +91,12 @@ const firstSample = (next) => (
 const secondSample = (next) => (
     <TrainingEchoPresentation
         key="different-azimuth-presentation"
-        description={<>These echoes can come from the left...</>}
+        description={
+            <>
+                Depending on what direction they are played from, you may hear them more strongly in
+                the left ear...
+            </>
+        }
         presentation={presentations.second}
         onFinish={next}
     />
@@ -96,7 +105,7 @@ const secondSample = (next) => (
 const thirdSample = (next) => (
     <TrainingEchoPresentation
         key="different-speeds-presentation"
-        description={<>...or from the right.</>}
+        description={<>...or in the right ear.</>}
         presentation={presentations.third}
         onFinish={next}
     />
@@ -104,11 +113,11 @@ const thirdSample = (next) => (
 
 const readyToTry = (next) => (
     <EchoVisualization
-        azimuthChoiceMap={getOrdinalChoiceMap(range(10, 25, 5))}
+        azimuthChoiceMap={getOrdinalChoiceMap(range(10, 30, 5))}
         description={
             <>
                 After each sound, you will be asked to estimate which angle the echo came from. You
-                will choose from a set of five closely-spaced choices. Let's try an example.{' '}
+                will choose from a set of five closely-spaced choices. Let's try a few examples.{' '}
                 <KeyboardResponse delaySeconds={2}>
                     <ContinueKey handler={next} />
                 </KeyboardResponse>
@@ -119,8 +128,24 @@ const readyToTry = (next) => (
 
 const sampleTrial = (next) => (
     <EchoTrial
+        key="first-trial"
         prefix="Ready? "
         presentation={presentations.first}
+        onFinish={next}
+        timeoutAfterMs={null}
+    />
+);
+
+const secondSampleTrial = (next) => (
+    <EchoTrial
+        key="second-trial"
+        prefix={
+            <>
+                We will present blocks of echoes in a row that appear to come from similar
+                positions. Try your best to distinguish them!<br/>
+            </>
+        }
+        presentation={presentations.fourth}
         onFinish={next}
         timeoutAfterMs={null}
     />
@@ -144,6 +169,7 @@ const steps = [
     thirdSample,
     readyToTry,
     sampleTrial,
+    secondSampleTrial,
     readyToBegin,
 ];
 
