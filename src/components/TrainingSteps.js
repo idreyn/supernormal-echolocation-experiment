@@ -142,7 +142,8 @@ const secondSampleTrial = (next) => (
         prefix={
             <>
                 We will present blocks of echoes in a row that appear to come from similar
-                positions. Try your best to distinguish them!<br/>
+                positions. Try your best to distinguish them!
+                <br />
             </>
         }
         presentation={presentations.fourth}
