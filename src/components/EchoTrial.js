@@ -3,13 +3,13 @@ import { getChosenKeyset } from '../keyset';
 import { getKeyChoiceMap } from '../util';
 import EchoPresentation from './EchoPresentation';
 import EchoVisualization from './EchoVisualization';
-import { Keyset } from './KeyboardResponse';
+import { KeyboardTrigger, Keyset } from './KeyboardResponse';
 
 const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 5000 }) => {
-    const { keys: responseKeys } = getChosenKeyset();
+    const { responseKeys, triggerKey } = getChosenKeyset();
     const timeoutRef = useRef(null);
     const [presentationState, setPresentationState] = useState('waiting');
-    const [chosenAzimuth, setChosenAzimuth] = useState(null);
+    const [chosenKey, setChosenKey] = useState(null);
     const [playStartTime, setPlayStartTime] = useState(null);
     const { choices } = presentation;
 
@@ -17,14 +17,6 @@ const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 500
         responseKeys,
         choices,
     ]);
-
-    useEffect(() => {
-        if (presentationState === 'waiting') {
-            const listener = () => setPresentationState('playing');
-            window.addEventListener('keypress', listener);
-            return () => window.removeEventListener('keypress', listener);
-        }
-    }, [presentationState]);
 
     useEffect(() => {
         if (presentationState === 'playing') {
@@ -39,35 +31,48 @@ const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 500
     }, [presentationState]);
 
     const handleChoiceByKey = (key) => {
-        if (chosenAzimuth) {
+        if (chosenKey) {
             return;
         }
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
         const responseDelay = Date.now() - playStartTime;
-        const nextChosenAzimuth = azimuthChoiceMap[key];
-        if (typeof nextChosenAzimuth !== 'number') {
+        const chosenAzimuth = azimuthChoiceMap[key];
+        if (typeof chosenAzimuth !== 'number') {
             throw new Error('Got invalid choice of azimuth.');
         }
-        setChosenAzimuth(nextChosenAzimuth);
-        setTimeout(() => onFinish({ chosenAzimuth: nextChosenAzimuth, responseDelay }), 500);
+        setChosenKey(key);
+        setTimeout(() => onFinish({ chosenAzimuth, responseDelay }), 500);
     };
 
-    const renderChoiceKeysDescription = () => (
-        <>
-            Use the{' '}
-            <Keyset triggers={responseKeys} onSelect={handleChoiceByKey} showSpaceAsUnderscore />{' '}
-            keys to pick the direction closest to where you heard the echo from.
-        </>
-    );
+    const renderChoiceKeysDescription = () => {
+        return (
+            <div className="response-text">
+                <p>
+                    Where in the indicated area did the echo come from? (Remember that _ is the
+                    spacebar).
+                </p>
+                <br />
+                <div className="response-keys">
+                    <div className="spacer">Leftmost</div>
+                    <Keyset
+                        triggers={responseKeys}
+                        onSelect={handleChoiceByKey}
+                        chosenTrigger={chosenKey}
+                        showSpaceAsUnderscore
+                    />
+                    <div className="spacer">Rightmost</div>
+                </div>
+            </div>
+        );
+    };
 
     if (presentationState === 'played') {
         return (
             <EchoVisualization
                 description={renderChoiceKeysDescription()}
                 azimuthChoiceMap={azimuthChoiceMap}
-                chosenAzimuth={chosenAzimuth}
             />
         );
     }
@@ -82,7 +87,20 @@ const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 500
         );
     }
 
-    return <EchoVisualization description={<>{prefix}Press any key to play.</>} />;
+    return (
+        <EchoVisualization
+            description={
+                <>
+                    {prefix}Press the{' '}
+                    <KeyboardTrigger
+                        trigger={triggerKey}
+                        handler={() => setPresentationState('playing')}
+                    />{' '}
+                    key to play.
+                </>
+            }
+        />
+    );
 };
 
 export default EchoTrial;

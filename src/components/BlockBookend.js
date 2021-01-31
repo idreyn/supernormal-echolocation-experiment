@@ -10,10 +10,12 @@ const BlockBookend = ({ isEnd, blockNumber, blockCount, onFinish, azimuths }) =>
         if (blockNumber === blockCount) {
             return (
                 <div className="text-content">
-                    <h1>
-                        Finished block {blockNumber} of {blockCount}
-                    </h1>
-                    <p>Nice work! Please do not close this browser tab yet.</p>
+                    <p>
+                        <b>
+                            Finished block {blockNumber} of {blockCount}.
+                        </b>{' '}
+                        Nice work! Please do not close this browser tab yet.
+                    </p>
                     <p>
                         <ContinueKey handler={onFinish} />
                     </p>
@@ -23,10 +25,10 @@ const BlockBookend = ({ isEnd, blockNumber, blockCount, onFinish, azimuths }) =>
         const nextOrFinal = blockNumber + 1 === blockCount ? 'final' : 'next';
         return (
             <div className="text-content">
-                <h1>
-                    Finished block {blockNumber} of {blockCount}
-                </h1>
                 <p>
+                    <b>
+                        Finished block {blockNumber} of {blockCount}.
+                    </b>{' '}
                     Nice work. Take a moment, and when you're ready, press{' '}
                     <KeyboardTrigger trigger="enter" handler={onFinish} /> to continue to the{' '}
                     {nextOrFinal} block.
@@ -40,10 +42,11 @@ const BlockBookend = ({ isEnd, blockNumber, blockCount, onFinish, azimuths }) =>
             azimuthChoiceMap={getOrdinalChoiceMap(azimuths)}
             description={
                 <>
-                    <h1>
-                        Block {blockNumber} of {blockCount}
-                    </h1>
+                    <h1></h1>
                     <p>
+                        <b>
+                            Block {blockNumber} of {blockCount}:
+                        </b>{' '}
                         All of the sounds you'll hear in this block will come from this range of
                         angles. When you're ready, press{' '}
                         <KeyboardTrigger trigger="enter" handler={onFinish} /> to begin.

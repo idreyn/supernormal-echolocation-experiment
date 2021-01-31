@@ -2,12 +2,14 @@ export const keysetOptions = {
     leftHand: {
         id: 'left-hand',
         title: 'Left hand (home row)',
-        keys: ['a', 's', 'd', 'f', 'space'],
+        responseKeys: ['a', 's', 'd', 'f', 'space'],
+        triggerKey: 'l',
     },
     righHand: {
         id: 'right-hand',
         title: 'Right hand (home row)',
-        keys: ['space', 'j', 'k', 'l', ';'],
+        responseKeys: ['space', 'j', 'k', 'l', ';'],
+        triggerKey: 's',
     },
 };
 

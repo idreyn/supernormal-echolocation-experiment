@@ -17,9 +17,10 @@ export const KeyboardTrigger = ({
     handler,
     showSpaceAsUnderscore = false,
     disabled = false,
+    chosen = false,
 }) => {
     const normalizedTrigger = trigger.toLowerCase();
-    const label = trigger === 'space' && showSpaceAsUnderscore ? 'space ( _ )' : trigger;
+    const label = trigger === 'space' && showSpaceAsUnderscore ? '_' : trigger;
 
     useEffect(() => {
         if (disabled) {
@@ -40,19 +41,26 @@ export const KeyboardTrigger = ({
     }, [disabled, normalizedTrigger, handler]);
 
     return (
-        <span className={classNames('keyboard-trigger', normalizedTrigger.length > 1 && 'long')}>
+        <span
+            className={classNames(
+                'keyboard-trigger',
+                normalizedTrigger.length > 1 && 'long',
+                chosen && 'chosen'
+            )}
+        >
             {label}
         </span>
     );
 };
 
-export const Keyset = ({ triggers, onSelect, showSpaceAsUnderscore }) => (
+export const Keyset = ({ triggers, chosenTrigger, onSelect, showSpaceAsUnderscore }) => (
     <span className="keyset">
         {triggers.map((trigger, i) => (
             <KeyboardTrigger
-                trigger={trigger}
-                showSpaceAsUnderscore={showSpaceAsUnderscore}
                 key={i}
+                trigger={trigger}
+                chosen={trigger === chosenTrigger}
+                showSpaceAsUnderscore={showSpaceAsUnderscore}
                 handler={onSelect && (() => onSelect(trigger))}
             />
         ))}

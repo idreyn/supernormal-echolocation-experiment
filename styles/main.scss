@@ -3,7 +3,7 @@ $primary-darker: darken($primary, 10%);
 $primary-darkest: darken($primary, 20%);
 $echoes: slateblue;
 $choice: darkgoldenrod;
-$stage-size: 80vh;
+$stage-size: 75vh;
 
 html,
 body {
@@ -82,8 +82,9 @@ body {
   }
   .description {
     text-align: left;
-    height: 100px;
+    height: 120px;
     margin-bottom: 10px;
+    width: $stage-size;
   }
   .stage {
     margin: 0 auto;
@@ -144,10 +145,31 @@ body {
       align-items: center;
       justify-content: center;
       color: white;
-      background: $choice;
+      background: $echoes;
+      filter: blur(15px);
       &.chosen {
         background: $echoes;
       }
+    }
+  }
+}
+
+.response-text {
+  p {
+    margin: 0;
+  }
+  .response-keys {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .keyset {
+      font-size: 1.5em;
+    }
+    .spacer {
+      display: flex;
+      align-items: center;
+      margin: 0 20px;
+      width: 70px;
     }
   }
 }
@@ -176,8 +198,9 @@ body {
     padding-left: 10px;
     padding-right: 10px;
   }
-  &.key-down {
-    background: darken($echoes, 10%);
+  &.chosen {
+    background: $choice;
+    border-color: darken($choice, 10%);
   }
 }
 

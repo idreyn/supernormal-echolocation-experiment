@@ -13,7 +13,7 @@ import {
 } from './params';
 
 const getPositionsAroundCenterAzimuth = (center) => {
-    const val = range(center - 20, center + 20, 10);
+    const val = range(center - 10, center + 10, 5);
     if (val.length !== AZIMUTHS_PER_BLOCK) {
         throw new Error('Expected azimuth range length to equal AZIMUTHS_PER_BLOCK');
     }

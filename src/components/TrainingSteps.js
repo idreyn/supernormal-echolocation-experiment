@@ -116,8 +116,8 @@ const readyToTry = (next) => (
         azimuthChoiceMap={getOrdinalChoiceMap(range(10, 30, 5))}
         description={
             <>
-                After each sound, you will be asked to estimate which angle the echo came from. You
-                will choose from a set of five closely-spaced choices. Let's try a few examples.{' '}
+                After each sound, you will be asked to estimate where the echo came from, within a
+                narrow highlighted area. Let's try a few examples.{' '}
                 <KeyboardResponse delaySeconds={2}>
                     <ContinueKey handler={next} />
                 </KeyboardResponse>
@@ -142,8 +142,7 @@ const secondSampleTrial = (next) => (
         prefix={
             <>
                 We will present blocks of echoes in a row that appear to come from similar
-                positions. Try your best to distinguish them!
-                <br />
+                positions. Try your best to distinguish them!{' '}
             </>
         }
         presentation={presentations.fourth}
