@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { setChosenKeyset, keysetOptions } from '../keyset';
 
 import { Choice, ChoiceSet } from './Choice';
-import { Keyset } from './KeyboardResponse';
+import { KeyboardTrigger, Keyset } from './KeyboardResponse';
 
 const KeysetSelect = ({ onFinish }) => {
     const [keysetName, setKeysetName] = useState(null);
@@ -17,7 +17,8 @@ const KeysetSelect = ({ onFinish }) => {
             <ChoiceSet name="volume-calibration" value={keysetName} onChange={setKeysetName}>
                 {Object.entries(keysetOptions).map(([name, keyset]) => (
                     <Choice title={keyset.title} value={name} key={name}>
-                        Use the <Keyset triggers={keyset.keys} /> keys to respond
+                        Use the <KeyboardTrigger trigger={keyset.triggerKey} /> to play sounds and
+                        the <Keyset triggers={keyset.responseKeys} /> keys to respond
                     </Choice>
                 ))}
             </ChoiceSet>
