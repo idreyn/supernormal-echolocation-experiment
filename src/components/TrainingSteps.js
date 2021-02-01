@@ -1,18 +1,20 @@
 import React, { useCallback, useState } from 'react';
 
 import { createPresentationWithChoices } from '../trials';
+import { getOrdinalChoiceMap, range } from '../util';
 
 import EchoTrial from './EchoTrial';
 import EchoVisualization from './EchoVisualization';
 import { KeyboardResponse, ContinueKey } from './KeyboardResponse';
 import TrainingEchoPresentation from './TrainingEchoPresentation';
-import { getOrdinalChoiceMap, range } from '../util';
+
+const choiceRange = range(30, 50, 5);
 
 const presentations = {
-    first: createPresentationWithChoices({ azimuth: 45 }, [30, 35, 40, 45, 50]),
+    first: createPresentationWithChoices({ azimuth: 45 }, choiceRange),
     second: createPresentationWithChoices({ azimuth: -60 }),
     third: createPresentationWithChoices({ azimuth: 60 }),
-    fourth: createPresentationWithChoices({ azimuth: 30 }, [30, 35, 40, 45, 50]),
+    fourth: createPresentationWithChoices({ azimuth: 30 }, choiceRange),
 };
 
 export const trainingFiles = Object.values(presentations).map((pr) => pr.filename);
@@ -86,7 +88,7 @@ const thirdSample = (next) => (
 
 const readyToTry = (next) => (
     <EchoVisualization
-        azimuthChoiceMap={getOrdinalChoiceMap(range(10, 30, 5))}
+        azimuthChoiceMap={getOrdinalChoiceMap(choiceRange)}
         description={
             <>
                 After each sound, you will be asked to estimate where the echo came from, within a
