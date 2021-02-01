@@ -1,24 +1,12 @@
 /* global jsPsych */
-import { range } from './util';
 import { queryManifestEntries } from './manifest';
 import { getProlificIds } from './prolific';
 import {
-    RECEIVER_ORIENTATION_TYPES,
     BLOCK_CENTER_AZIMUTHS,
-    AZIMUTHS_PER_BLOCK,
     REPEATS_PER_BLOCK,
-    compensationDescriptor,
-    slowdown,
     isTiny,
+    getPositionsAroundCenterAzimuth,
 } from './params';
-
-const getPositionsAroundCenterAzimuth = (center) => {
-    const val = range(center - 10, center + 10, 5);
-    if (val.length !== AZIMUTHS_PER_BLOCK) {
-        throw new Error('Expected azimuth range length to equal AZIMUTHS_PER_BLOCK');
-    }
-    return val;
-};
 
 const maybeMakeTiny = (items) => {
     if (isTiny) {
@@ -42,12 +30,7 @@ export const createTrialBlocks = () => {
     return blockCenters.map((center) => {
         const azimuthsAroundCenter = getPositionsAroundCenterAzimuth(center);
         const params = jsPsych.randomization.factorial(
-            {
-                slowdown: [slowdown],
-                compensationDescriptor: [compensationDescriptor],
-                receiverOrientationType: RECEIVER_ORIENTATION_TYPES,
-                azimuth: azimuthsAroundCenter,
-            },
+            { azimuth: azimuthsAroundCenter },
             REPEATS_PER_BLOCK
         );
         return {
@@ -55,6 +38,7 @@ export const createTrialBlocks = () => {
                 createPresentationWithChoices(p, azimuthsAroundCenter)
             ),
             azimuths: azimuthsAroundCenter,
+            center,
         };
     });
 };

@@ -32,6 +32,7 @@ import WelcomeScreen from './components/WelcomeScreen';
 import DeviceIneligible from './components/DeviceIneligible';
 import { trainingFiles } from './components/TrainingSteps';
 
+import { blockBookendFiles } from './blockBookends';
 import { headphoneCheckFiles } from './headphoneCheck';
 import { getCompletionUrl, getProlificIds } from './prolific';
 import { getUrlParam } from './util';
@@ -50,6 +51,7 @@ const trialBlocks = createTrialBlocks();
 
 export const preload_audio = [
     ...getAudioFilesForTrialBlocks(trialBlocks),
+    ...blockBookendFiles,
     ...trainingFiles,
     ...headphoneCheckFiles,
 ];
@@ -109,6 +111,7 @@ export function createTimeline() {
         timeline.push({
             type: 'block-bookend',
             azimuths: block.azimuths,
+            center: block.center,
             blockNumber,
             blockCount,
         });

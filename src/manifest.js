@@ -1,5 +1,9 @@
 import manifestRows from './_manifestData';
 import { number, string, numberOrString } from './util';
+import {
+    slowdown as paramsSlowdown,
+    compensationDescriptor as paramsCompensationDescriptor,
+} from './params';
 
 const stimFileName = (name) => `media/audio/stims/${name}`;
 
@@ -10,6 +14,7 @@ const manifestStructure = {
     filename: ['filename', stimFileName],
     receiver_orientation_type: ['receiverOrientationType', string],
     slowdown: ['slowdown', number],
+    model_name: ['modelName', string],
 };
 
 const parseManifestRow = (rowArr, headers) => {
@@ -34,8 +39,22 @@ const createManifestEntries = () => {
 const manifestEntries = createManifestEntries();
 
 export const queryManifestEntries = (query) => {
+    const {
+        slowdown = paramsSlowdown,
+        compensationDescriptor = paramsCompensationDescriptor,
+        receiverOrientationType = 'matched',
+        modelName = 'spherical',
+        ...rest
+    } = query;
+    const fullQuery = {
+        slowdown,
+        compensationDescriptor,
+        receiverOrientationType,
+        modelName,
+        ...rest,
+    };
     const result = manifestEntries.find((entry) =>
-        Object.keys(query).every((key) => query[key] === entry[key])
+        Object.keys(fullQuery).every((key) => fullQuery[key] === entry[key])
     );
     if (!result) {
         throw new Error(`Could not find result for query ${JSON.stringify(query)}`);

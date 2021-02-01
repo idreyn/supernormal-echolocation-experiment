@@ -25,12 +25,7 @@ export const getRandomHeadphoneCheck = (length) => {
         .slice(0, length);
 };
 
-export const calibrationFilename = queryManifestEntries({
-    azimuth: 0,
-    slowdown: 20,
-    compensationDescriptor: 'full',
-    receiverOrientationType: 'matched',
-}).filename;
+export const calibrationFilename = queryManifestEntries({ azimuth: 0 }).filename;
 
 export const stereoFilenames = [
     getAssetFilenameForKey('left-tone.wav'),

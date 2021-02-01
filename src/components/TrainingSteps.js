@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
 import { createPresentationWithChoices } from '../trials';
-import { compensationDescriptor, slowdown } from '../params';
 
 import EchoTrial from './EchoTrial';
 import EchoVisualization from './EchoVisualization';
@@ -10,36 +9,10 @@ import TrainingEchoPresentation from './TrainingEchoPresentation';
 import { getOrdinalChoiceMap, range } from '../util';
 
 const presentations = {
-    first: createPresentationWithChoices(
-        {
-            receiverOrientationType: 'matched',
-            azimuth: 45,
-            compensationDescriptor,
-            slowdown,
-        },
-        [30, 35, 40, 45, 50]
-    ),
-    second: createPresentationWithChoices({
-        receiverOrientationType: 'matched',
-        azimuth: -60,
-        compensationDescriptor,
-        slowdown,
-    }),
-    third: createPresentationWithChoices({
-        receiverOrientationType: 'matched',
-        azimuth: 60,
-        compensationDescriptor,
-        slowdown,
-    }),
-    fourth: createPresentationWithChoices(
-        {
-            receiverOrientationType: 'matched',
-            azimuth: 30,
-            compensationDescriptor,
-            slowdown,
-        },
-        [30, 35, 40, 45, 50]
-    ),
+    first: createPresentationWithChoices({ azimuth: 45 }, [30, 35, 40, 45, 50]),
+    second: createPresentationWithChoices({ azimuth: -60 }),
+    third: createPresentationWithChoices({ azimuth: 60 }),
+    fourth: createPresentationWithChoices({ azimuth: 30 }, [30, 35, 40, 45, 50]),
 };
 
 export const trainingFiles = Object.values(presentations).map((pr) => pr.filename);
