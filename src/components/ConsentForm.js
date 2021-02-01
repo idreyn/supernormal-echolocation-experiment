@@ -34,7 +34,7 @@ const ConsentForm = (props) => {
 
     return (
         <div className="text-content">
-            <h1>Subject consent form</h1>
+            <h1>Participant consent form</h1>
             <div className="consent-form-content" ref={containerRef} onScroll={handleScroll}>
                 {consentFormText}
             </div>
