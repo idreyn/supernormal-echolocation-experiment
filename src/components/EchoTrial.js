@@ -5,7 +5,7 @@ import EchoPresentation from './EchoPresentation';
 import EchoVisualization from './EchoVisualization';
 import { KeyboardTrigger, Keyset } from './KeyboardResponse';
 
-const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 5000 }) => {
+const EchoTrial = ({ presentation, onFinish, prefix = null, timeoutAfterMs = null }) => {
     const { responseKeys, triggerKey } = getChosenKeyset();
     const timeoutRef = useRef(null);
     const [presentationState, setPresentationState] = useState('waiting');
@@ -59,7 +59,6 @@ const EchoTrial = ({ prefix = null, presentation, onFinish, timeoutAfterMs = 500
                     <Keyset
                         triggers={responseKeys}
                         onSelect={handleChoiceByKey}
-                        chosenTrigger={chosenKey}
                         showSpaceAsUnderscore
                     />
                     <div className="spacer">Rightmost</div>

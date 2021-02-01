@@ -1,13 +1,13 @@
 export const keysetOptions = {
     leftHand: {
         id: 'left-hand',
-        title: 'Left hand (home row)',
+        title: 'Left hand on home row',
         responseKeys: ['a', 's', 'd', 'f', 'space'],
         triggerKey: 'l',
     },
     righHand: {
         id: 'right-hand',
-        title: 'Right hand (home row)',
+        title: 'Right hand on home row',
         responseKeys: ['space', 'j', 'k', 'l', ';'],
         triggerKey: 's',
     },

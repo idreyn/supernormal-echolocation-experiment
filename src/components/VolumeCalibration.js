@@ -70,7 +70,7 @@ const VolumeCalibration = ({ filename, onFinish }) => {
             <p>
                 The sounds used in this experiment are higher-pitched and can be unpleasant at a
                 high volume. You may choose an option for the sound volume here. You may also adjust
-                your device volume.
+                your computer's volume at any time.
             </p>
             {renderChoiceSet()}
             <button

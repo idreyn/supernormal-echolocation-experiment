@@ -17,8 +17,8 @@ const KeysetSelect = ({ onFinish }) => {
             <ChoiceSet name="volume-calibration" value={keysetName} onChange={setKeysetName}>
                 {Object.entries(keysetOptions).map(([name, keyset]) => (
                     <Choice title={keyset.title} value={name} key={name}>
-                        Use the <KeyboardTrigger trigger={keyset.triggerKey} /> to play sounds and
-                        the <Keyset triggers={keyset.responseKeys} /> keys to respond
+                        Use the <KeyboardTrigger trigger={keyset.triggerKey} /> key to play sounds
+                        and the <Keyset triggers={keyset.responseKeys} /> keys to respond
                     </Choice>
                 ))}
             </ChoiceSet>
@@ -29,8 +29,9 @@ const KeysetSelect = ({ onFinish }) => {
         <div className="text-content">
             <h1>Choose your keyboard controls</h1>
             <p>
-                In this experiment you will use the keyboard to choose between five options. You may
-                choose which hand to use on a QWERTY keyboard here.
+                In this experiment you will use the keyboard to choose between five options with one
+                hand, and play sounds with the other. You may choose which hand to use on a QWERTY
+                keyboard here.
             </p>
             {renderChoiceSet()}
             <button className="jspsych-btn primary" onClick={onFinish} disabled={!keysetName}>

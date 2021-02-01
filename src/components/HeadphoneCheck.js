@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 
 import { calibrationFilename, getRandomHeadphoneCheck } from '../headphoneCheck';
+import { getCompletionUrl } from '../prolific';
 
 import { useAudio } from './hooks/useAudio';
 import { KeyboardTrigger, Keyset, ContinueKey } from './KeyboardResponse';
@@ -33,7 +34,7 @@ const HeadphoneCheck = ({ onFinish, testLength, permittedFailures }) => {
     );
 
     useEffect(() => {
-        if (testIndex > -1) {
+        if (testIndex > -1 && testIndex < testElements.length) {
             const delay = testIndex === 0 ? 1000 : 0;
             setTimeout(() => {
                 setHasStartedTest(true);
@@ -64,7 +65,11 @@ const HeadphoneCheck = ({ onFinish, testLength, permittedFailures }) => {
             return (
                 <>
                     <h1>Sorry.</h1>
-                    <p>Based on your responses, it appears that you're not wearing headphones.</p>
+                    <p>
+                        Based on your responses, it appears that you're not wearing headphones.
+                        <br />
+                        <a href={getCompletionUrl()}>Return to Prolific</a>
+                    </p>
                 </>
             );
         }
