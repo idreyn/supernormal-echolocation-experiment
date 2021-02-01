@@ -147,9 +147,6 @@ body {
       color: white;
       background: $echoes;
       filter: blur(15px);
-      &.chosen {
-        background: $choice;
-      }
     }
   }
 }
