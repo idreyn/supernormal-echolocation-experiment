@@ -1,9 +1,15 @@
 import { queryManifestEntries } from './manifest';
-import { BLOCK_CENTER_AZIMUTHS, getPositionsAroundCenterAzimuth } from './params';
+import {
+    BLOCK_CENTER_AZIMUTHS,
+    TRAINING_CENTER_AZIMUTH,
+    getPositionsAroundCenterAzimuth,
+} from './params';
+
+const possibleCenterAzimuths = [...BLOCK_CENTER_AZIMUTHS, TRAINING_CENTER_AZIMUTH];
 
 const getBlockBookendFilesForCenterAzimuths = () => {
     const res = {};
-    BLOCK_CENTER_AZIMUTHS.forEach((center) => {
+    possibleCenterAzimuths.forEach((center) => {
         const positions = getPositionsAroundCenterAzimuth(center);
         res[center] = [positions[0], positions[positions.length - 1]].map(
             (azimuth) => queryManifestEntries({ modelName: 'click', azimuth }).filename
@@ -20,5 +26,8 @@ export const blockBookendFiles = Object.values(blockBookendsForCenterAzimuths).r
 );
 
 export const getBlockBookendFilesForCenterAzimuth = (centerAzimuth) => {
+    if (!possibleCenterAzimuths.includes(centerAzimuth)) {
+        throw new Error('Invalid center azimuth');
+    }
     return blockBookendsForCenterAzimuths[centerAzimuth];
 };

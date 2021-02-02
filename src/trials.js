@@ -4,6 +4,7 @@ import { getProlificIds } from './prolific';
 import {
     BLOCK_CENTER_AZIMUTHS,
     REPEATS_PER_BLOCK,
+    REPEATS_OF_BLOCK_CENTERS,
     isTiny,
     getPositionsAroundCenterAzimuth,
 } from './params';
@@ -25,7 +26,10 @@ export const createPresentationWithChoices = (params, choices) => {
 jsPsych.data.addProperties({ ...getProlificIds(), userAgent: navigator.userAgent });
 
 export const createTrialBlocks = () => {
-    const blockCenters = jsPsych.randomization.repeat(BLOCK_CENTER_AZIMUTHS, 2);
+    const blockCenters = jsPsych.randomization.repeat(
+        BLOCK_CENTER_AZIMUTHS,
+        REPEATS_OF_BLOCK_CENTERS
+    );
 
     return blockCenters.map((center) => {
         const azimuthsAroundCenter = getPositionsAroundCenterAzimuth(center);

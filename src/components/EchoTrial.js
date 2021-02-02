@@ -1,11 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+
 import { getChosenKeyset } from '../keyset';
 import { getKeyChoiceMap } from '../util';
+
 import EchoPresentation from './EchoPresentation';
 import EchoVisualization from './EchoVisualization';
-import { KeyboardTrigger, Keyset } from './KeyboardResponse';
+import ResponseKeyset from './ResponseKeyset';
+import { KeyboardTrigger } from './KeyboardResponse';
 
-const EchoTrial = ({ presentation, onFinish, prefix = null, timeoutAfterMs = null }) => {
+const EchoTrial = ({
+    description,
+    presentation,
+    onFinish,
+    prefix = null,
+    timeoutAfterMs = null,
+}) => {
     const { responseKeys, triggerKey } = getChosenKeyset();
     const timeoutRef = useRef(null);
     const [presentationState, setPresentationState] = useState('waiting');
@@ -46,31 +55,20 @@ const EchoTrial = ({ presentation, onFinish, prefix = null, timeoutAfterMs = nul
         setTimeout(() => onFinish({ chosenAzimuth, responseDelay }), 500);
     };
 
-    const renderChoiceKeysDescription = () => {
+    const renderResponseKeyset = () => {
         return (
-            <div className="response-text">
-                <p>
-                    Where in the indicated area did the echo come from? (Remember that _ is the
-                    spacebar).
-                </p>
-                <br />
-                <div className="response-keys">
-                    <div className="spacer">Leftmost</div>
-                    <Keyset
-                        triggers={responseKeys}
-                        onSelect={handleChoiceByKey}
-                        showSpaceAsUnderscore
-                    />
-                    <div className="spacer">Rightmost</div>
-                </div>
-            </div>
+            <>
+                Where in the indicated area did the echo come from? (Remember that _ is the
+                spacebar).
+                <ResponseKeyset triggers={responseKeys} onSelect={handleChoiceByKey} />
+            </>
         );
     };
 
     if (presentationState === 'played') {
         return (
             <EchoVisualization
-                description={renderChoiceKeysDescription()}
+                description={renderResponseKeyset()}
                 azimuthChoiceMap={azimuthChoiceMap}
             />
         );

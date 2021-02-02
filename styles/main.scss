@@ -151,22 +151,22 @@ body {
   }
 }
 
-.response-text {
-  p {
-    margin: 0;
+.response-keyset {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .keyset {
+    font-size: 1.5em;
   }
-  .response-keys {
+  .spacer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    .keyset {
-      font-size: 1.5em;
-    }
-    .spacer {
-      display: flex;
-      align-items: center;
-      margin: 0 20px;
-      width: 70px;
+    margin: 0 20px;
+    width: 70px;
+    transition: text-shadow 0.2s;
+    &.emphasized {
+      text-shadow: 0px 0px 5px $echoes;
     }
   }
 }

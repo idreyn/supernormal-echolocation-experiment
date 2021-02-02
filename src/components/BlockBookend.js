@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { getBlockBookendFilesForCenterAzimuth } from '../blockBookends';
-import { getOrdinalChoiceMap } from '../util';
-
-import EchoVisualization from './EchoVisualization';
 import { KeyboardTrigger, ContinueKey } from './KeyboardResponse';
-import { useAudio } from './hooks/useAudio';
+import EchoBoundariesVisualization from './EchoBoundariesVisualization';
 
 const BlockBookendAfter = ({ blockNumber, blockCount, onFinish }) => {
     if (blockNumber === blockCount) {
@@ -38,24 +34,9 @@ const BlockBookendAfter = ({ blockNumber, blockCount, onFinish }) => {
     );
 };
 
-const BlockBookendBefore = ({ blockNumber, blockCount, onFinish, azimuths, center }) => {
-    const [playState, setPlayState] = useState('ready');
-    const { playFile } = useAudio();
-    const [firstInRange, lastInRange] = getBlockBookendFilesForCenterAzimuth(center);
-
-    const playRangeStims = () => {
-        if (playState !== 'ready') {
-            return;
-        }
-        playFile(firstInRange, () => {
-            setTimeout(() => {
-                playFile(lastInRange, () => setPlayState('done'));
-            }, 1000);
-        });
-    };
-
-    const renderInstructions = () => {
-        if (playState === 'done') {
+const BlockBookendBefore = ({ blockNumber, blockCount, onFinish, center }) => {
+    const renderInstructions = ({ start, isFinished }) => {
+        if (isFinished) {
             return (
                 <>
                     When you're ready, press <KeyboardTrigger trigger="enter" handler={onFinish} />{' '}
@@ -65,26 +46,17 @@ const BlockBookendBefore = ({ blockNumber, blockCount, onFinish, azimuths, cente
         }
         return (
             <>
+                <b>
+                    Block {blockNumber} of {blockCount}:
+                </b>{' '}
                 All of the sounds you'll hear in this block will come from the highlighted range.
-                Press <KeyboardTrigger trigger="enter" handler={playRangeStims} /> to hear an
-                example sound from each end of this range.
+                Press <KeyboardTrigger trigger="enter" handler={start} /> to hear an example sound
+                from each end of this range.
             </>
         );
     };
 
-    return (
-        <EchoVisualization
-            azimuthChoiceMap={getOrdinalChoiceMap(azimuths)}
-            description={
-                <p>
-                    <b>
-                        Block {blockNumber} of {blockCount}:
-                    </b>{' '}
-                    {renderInstructions()}
-                </p>
-            }
-        />
-    );
+    return <EchoBoundariesVisualization center={center} renderDescription={renderInstructions} />;
 };
 
 const BlockBookend = (props) => {
