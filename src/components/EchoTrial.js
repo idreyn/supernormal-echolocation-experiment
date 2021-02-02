@@ -8,13 +8,7 @@ import EchoVisualization from './EchoVisualization';
 import ResponseKeyset from './ResponseKeyset';
 import { KeyboardTrigger } from './KeyboardResponse';
 
-const EchoTrial = ({
-    description,
-    presentation,
-    onFinish,
-    prefix = null,
-    timeoutAfterMs = null,
-}) => {
+const EchoTrial = ({ presentation, onFinish, prefix = null, timeoutAfterMs = null }) => {
     const { responseKeys, triggerKey } = getChosenKeyset();
     const timeoutRef = useRef(null);
     const [presentationState, setPresentationState] = useState('waiting');
