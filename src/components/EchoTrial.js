@@ -53,7 +53,7 @@ const EchoTrial = ({ presentation, onFinish, prefix = null, timeoutAfterMs = nul
         return (
             <>
                 Where in the indicated area did the echo come from? (Remember that _ is the
-                spacebar).
+                spacebar)
                 <ResponseKeyset triggers={responseKeys} onSelect={handleChoiceByKey} />
             </>
         );
