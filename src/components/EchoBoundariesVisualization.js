@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { getBlockBookendFilesForCenterAzimuth } from '../blockBookends';
 import { getChosenKeyset } from '../keyset';
-import { getOrdinalChoiceMap } from '../util';
 
 import EchoVisualization from './EchoVisualization';
 import ResponseKeyset from './ResponseKeyset';

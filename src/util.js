@@ -23,14 +23,6 @@ export const getUrlParam = (param) => {
     return null;
 };
 
-export const getOrdinalChoiceMap = (choices) => {
-    const res = {};
-    choices.forEach((choice, index) => {
-        res[(index + 1).toString()] = choice;
-    });
-    return res;
-};
-
 export const getKeyChoiceMap = (responseKeys, choices) => {
     if (choices.length !== responseKeys.length) {
         throw new Error('Need number of choices and keys to match');
