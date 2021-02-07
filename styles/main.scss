@@ -161,8 +161,9 @@ body {
     align-items: center;
     margin: 0 20px;
     width: 70px;
-    transition: text-shadow 0.2s;
+    transition: 0.2s all;
     &.emphasized {
+      color: $echoes;
       text-shadow: 0px 0px 5px $echoes;
     }
   }
