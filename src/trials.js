@@ -5,6 +5,7 @@ import {
     BLOCK_CENTER_AZIMUTHS,
     REPEATS_PER_BLOCK,
     REPEATS_OF_BLOCK_CENTERS,
+    VERSION,
     isTiny,
     getPositionsAroundCenterAzimuth,
 } from './params';
@@ -24,7 +25,11 @@ export const createPresentationWithChoices = (params, choices) => {
     };
 };
 
-jsPsych.data.addProperties({ ...getProlificIds(), userAgent: navigator.userAgent });
+jsPsych.data.addProperties({
+    ...getProlificIds(),
+    userAgent: navigator.userAgent,
+    version: VERSION,
+});
 
 export const createTrialBlocks = () => {
     const blockCenters = repeatArray(

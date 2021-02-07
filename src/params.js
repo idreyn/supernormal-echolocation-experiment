@@ -9,6 +9,7 @@ export const AZIMUTHS_PER_BLOCK = 5;
 export const AZIMUTH_SPACING = 5;
 export const REPEATS_PER_BLOCK = 4;
 export const REPEATS_OF_BLOCK_CENTERS = 2;
+export const VERSION = 'v1';
 
 export const isTiny = getUrlParam('tiny');
 export const slowdown = number(getUrlParam('slowdown'));
@@ -28,3 +29,6 @@ if (
 ) {
     throw new Error(`Invalid slowdown=${slowdown} compensation=${compensationDescriptor}`);
 }
+
+// eslint-disable-next-line no-console
+console.log(VERSION);
