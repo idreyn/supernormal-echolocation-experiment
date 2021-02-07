@@ -421,11 +421,9 @@ jsPsych.plugins['pavlovia'] = (function() {
 	 */
 	const _save = async function(trial, data, sync = false)
 	{
-		const date = new Date();
-		let dateString = date.getFullYear() + '-' + ('0'+(1+date.getMonth())).slice(-2) + '-' + ('0'+date.getDate()).slice(-2) + '_';
-		dateString += ('0'+date.getHours()).slice(-2) + 'h' + ('0'+date.getMinutes()).slice(-2) + '.' + ('0'+date.getSeconds()).slice(-2) + '.' + date.getMilliseconds();
-
-		const key = _config.experiment.name + '_' + trial.participantId + '_' + 'SESSION' + '_' + dateString + '.csv';
+		const dateString = Date.now().toString();
+		const key = _config.experiment.name + '_' + trial.participantId + '_' + dateString + '.csv';
+		console.log(key)
 
 		if (_config.experiment.status === 'RUNNING' && !_serverMsg.has('__pilotToken'))
 		{
