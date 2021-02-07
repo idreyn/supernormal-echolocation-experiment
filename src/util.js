@@ -6,6 +6,16 @@ export const range = (from, to, step = 1) => {
     return res;
 };
 
+export const repeatArray = (arr, repeat) => {
+    const res = [];
+    arr.forEach((el) => {
+        for (let i = 0; i < repeat; i++) {
+            res.push(el);
+        }
+    });
+    return res;
+};
+
 export const getUrlParam = (param) => {
     if ('URLSearchParams' in window) {
         return new URLSearchParams(window.location.search).get(param);

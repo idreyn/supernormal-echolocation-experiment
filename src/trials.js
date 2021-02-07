@@ -8,6 +8,7 @@ import {
     isTiny,
     getPositionsAroundCenterAzimuth,
 } from './params';
+import { repeatArray } from './util';
 
 const maybeMakeTiny = (items) => {
     if (isTiny) {
@@ -26,11 +27,10 @@ export const createPresentationWithChoices = (params, choices) => {
 jsPsych.data.addProperties({ ...getProlificIds(), userAgent: navigator.userAgent });
 
 export const createTrialBlocks = () => {
-    const blockCenters = jsPsych.randomization.repeat(
-        BLOCK_CENTER_AZIMUTHS,
+    const blockCenters = repeatArray(
+        jsPsych.randomization.repeat(BLOCK_CENTER_AZIMUTHS, 1),
         REPEATS_OF_BLOCK_CENTERS
     );
-
     return blockCenters.map((center) => {
         const azimuthsAroundCenter = getPositionsAroundCenterAzimuth(center);
         const params = jsPsych.randomization.factorial(
