@@ -60,12 +60,7 @@ const EchoTrial = ({ presentation, onFinish, prefix = null, timeoutAfterMs = nul
     };
 
     if (presentationState === 'played') {
-        return (
-            <EchoVisualization
-                description={renderResponseKeyset()}
-                azimuthChoiceMap={azimuthChoiceMap}
-            />
-        );
+        return <EchoVisualization description={renderResponseKeyset()} azimuths={choices} />;
     }
 
     if (presentationState === 'playing') {

@@ -15,7 +15,7 @@ export const slowdown = number(getUrlParam('slowdown'));
 export const compensationDescriptor = numberOrString(getUrlParam('compensation'));
 
 export const getPositionsAroundCenterAzimuth = (center) => {
-    const val = range(center - 10, center + 10, 5);
+    const val = range(center - 20, center + 20, 10);
     if (val.length !== AZIMUTHS_PER_BLOCK) {
         throw new Error('Expected azimuth range length to equal AZIMUTHS_PER_BLOCK');
     }

@@ -36,7 +36,7 @@ const EchoBoundariesVisualization = ({ center, onFinish, renderDescription }) =>
 
     return (
         <EchoVisualization
-            azimuthChoiceMap={getOrdinalChoiceMap(azimuths)}
+            azimuths={azimuths}
             description={
                 <>
                     {renderDescription({ start: playRangeStims, isFinished: playState === 'done' })}

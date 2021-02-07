@@ -24,10 +24,19 @@ const getCircleStyle = (radius) => {
     };
 };
 
+const getAzimuthTargetsRange = (azimuths) => {
+    const res = [];
+    const min = Math.min(...azimuths);
+    const max = Math.max(...azimuths);
+    for (let i = min; i <= max; i++) {
+        res.push(i);
+    }
+    return res;
+};
+
 const EchoVisualization = (props) => {
     const {
-        chosenAzimuth = null,
-        azimuthChoiceMap = {},
+        azimuths = null,
         showPulseAnimation = false,
         description = null,
         headRadiusMeters = 0.0875,
@@ -38,6 +47,8 @@ const EchoVisualization = (props) => {
     } = props;
 
     const targetDistance = targetDistanceMeters / sizeMeters;
+    const targetsRange = azimuths && getAzimuthTargetsRange(azimuths);
+
     return (
         <div
             className={classNames('echo-visualization', echoAnimationSlowdown < 10 && 'high-speed')}
@@ -87,21 +98,17 @@ const EchoVisualization = (props) => {
                         }}
                     />
                 )}
-                {Object.entries(azimuthChoiceMap).map(([label, azimuth]) => (
-                    <div
-                        key={azimuth.toString()}
-                        className={classNames(
-                            'azimuth-choice',
-                            azimuth === chosenAzimuth && 'chosen'
-                        )}
-                        style={{
-                            ...getRadialPositionStyle(targetDistance, azimuth),
-                            ...getCircleStyle(0.02),
-                        }}
-                    >
-                        {label === 'space' ? '_' : label.toUpperCase()}
-                    </div>
-                ))}
+                {targetsRange &&
+                    targetsRange.map((azimuth) => (
+                        <div
+                            key={azimuth}
+                            className="azimuth-target"
+                            style={{
+                                ...getRadialPositionStyle(targetDistance, azimuth),
+                                ...getCircleStyle(0.02),
+                            }}
+                        />
+                    ))}
             </div>
         </div>
     );
