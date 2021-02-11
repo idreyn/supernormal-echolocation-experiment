@@ -31,10 +31,9 @@ const main = () => {
         execHere(`git fetch`);
     }
     execHere(`git branch --set-upstream-to origin/${branch} ${branch}`);
-    execHere(`git checkout origin/${branch} -- data`);
-    execHere(`git add .`);
     execHere(`git commit -am "Deployment on ${new Date().toString()}" --allow-empty`);
-    execHere(`git push -f`);
+    execHere(`git pull -s recursive -X ours --allow-unrelated-histories`)
+    execHere(`git push`);
 };
 
 main();

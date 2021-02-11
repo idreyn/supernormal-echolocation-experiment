@@ -12,7 +12,7 @@ const getBlockBookendFilesForCenterAzimuths = () => {
     possibleCenterAzimuths.forEach((center) => {
         const positions = getPositionsAroundCenterAzimuth(center);
         res[center] = [positions[0], positions[positions.length - 1]].map(
-            (azimuth) => queryManifestEntries({ modelName: 'click', azimuth }).filename
+            (azimuth) => queryManifestEntries({ pulse: 'click', azimuth }).filename
         );
     });
     return res;

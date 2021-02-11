@@ -5,7 +5,7 @@ export const keysetOptions = {
         responseKeys: ['a', 's', 'd', 'f', 'space'],
         triggerKey: 'l',
     },
-    righHand: {
+    rightHand: {
         id: 'right-hand',
         title: 'Right hand on home row',
         responseKeys: ['space', 'j', 'k', 'l', ';'],
